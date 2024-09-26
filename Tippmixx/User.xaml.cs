@@ -15,13 +15,23 @@ using System.Windows.Shapes;
 namespace Tippmixx
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for User.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class User : Window
     {
-        public Window1()
+        public User()
         {
             InitializeComponent();
+
+            lbUsername.Content = Session.Username;
+            lbEmail.Content = Session.Email;
+            lbBalance.Content = Session.Balance;
+            lbIsactive.Content = Session.IsActive ? "Aktív" : "Inaktív";
+            lbClass.Content = Session.Class;
         }
+
+
+
+
     }
 }

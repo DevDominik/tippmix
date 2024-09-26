@@ -1,0 +1,21 @@
+﻿<Window x:Class="Tippmixx.User"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tippmixx"
+        mc:Ignorable="d"
+        Title="User" Height="450" Width="800">
+    <Grid Background="#2f2f2f">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Background="#2f2f2f">
+            <Label Background="#4f4f4f" x:Name="lbUsername" Content=""></Label>
+            <Label Background="#4f4f4f" x:Name="lbEmail" Content=""></Label>
+            <Label Background="#4f4f4f" x:Name="lbBalance" Content=""></Label>
+            <Label Background="#4f4f4f" x:Name="lbIsactive" Content=""></Label>
+            <Label Background="#4f4f4f" x:Name="lbClass" Content=""></Label>
+        </StackPanel>
+    </Grid>
+</Window>

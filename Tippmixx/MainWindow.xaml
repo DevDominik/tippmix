@@ -1,25 +1,31 @@
-﻿<Window x:Class="Tippmixx.MainWindow"
+﻿<Window x:Class="Tippmixx.Window1"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tippmixx"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Auth" Height="600" Width="450">
+    <Grid Background="#2f2f2f">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.8*"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.RowSpan="3" Background="Gray"></StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.RowSpan="2" Background="Transparent">
+            <TextBox x:Name="tbUsername" Background="#4f4f4f" Margin="5px"></TextBox>
+            <TextBox x:Name="tbPassword" Background="#4f4f4f" Margin="5px"></TextBox>
+            <TextBox x:Name="tbEmail" Background="#4f4f4f" Margin="5px"></TextBox>
+            <StackPanel Orientation="Horizontal">
+            <Button Width="210" Margin="8px" x:Name="btnLogin" Click="LoginButton_Click">Login</Button>
+            <Button Width="210" Margin="8px" x:Name="btnRegister" Click="btnRegister_Click">Register</Button>
+            </StackPanel>
+            <TextBlock x:Name="tbResult" Background="#3b3b3b" Margin="8px" Height="50px"></TextBlock>
+        </StackPanel>
         
     </Grid>
 </Window>

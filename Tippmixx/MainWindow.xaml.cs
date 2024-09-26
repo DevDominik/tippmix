@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -11,126 +12,133 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 using EasyEncryption;
-using Microsoft.Data.Sqlite;
-
 namespace Tippmixx
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Window1 : Window
     {
-        public MainWindow()
+        public Window1()
         {
             InitializeComponent();
         }
-        public readonly string dbConnectionString = "Data Source=bets.db;Version=3;";
+
+        public readonly string dbConnectionString = "Server=localhost;Database=tippmix;User ID=root;Password=;";
         private bool AuthenticateUser(string username, string password)
         {
-            using (SQLiteConnection conn = new SQLiteConnection(dbConnectionString))
+            using (MySqlConnection conn = new MySqlConnection(dbConnectionString))
             {
                 conn.Open();
-                string query = "SELECT COUNT(1) FROM Bettors WHERE Username = @username AND Password = @password";
+                string query = @"
+            SELECT Username, Email, Balance, IsActive 
+            FROM Bettors 
+            WHERE Username = @username AND Password = @password";
 
-                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@username", username.ToLower());
                     cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
 
-                    int result = Convert.ToInt32(cmd.ExecuteScalar());
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Session.Username = reader["Username"].ToString();
+                            Session.Password = EasyEncryption.SHA.ComputeSHA256Hash(password);
+                            Session.Email = reader["Email"].ToString();
+                            Session.Balance = Convert.ToInt32(reader["Balance"]);
+                            Session.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                            Session.Class = Session.Username == "admin" ? "Admin" : Session.Username == "organizer" ? "Organizer" : "User";
 
-                    return result == 1;
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
         }
+
+
+        private bool RegisterUser(string username, string password, string email, int balance)
+        {
+            using (MySqlConnection conn = new MySqlConnection(dbConnectionString))
+            {
+                conn.Open();
+
+                string checkQuery = "SELECT COUNT(1) FROM Bettors WHERE Username = @username OR Email = @Email";
+                using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
+                {
+                    checkCmd.Parameters.AddWithValue("@username", username.ToLower());
+                    checkCmd.Parameters.AddWithValue("@Email", email.ToLower());
+
+                    int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (exists > 0)
+                    {
+                        MessageBox.Show("Username or email already exists!");
+                        return false;
+                    }
+                }
+
+                string insertQuery = @"
+            INSERT INTO Bettors (Username, Balance, Email, Password, JoinDate, IsActive)
+            VALUES (@username, @balance, @Email, @password, @joinDate, @isActive)";
+
+                using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@username", username.ToLower());
+                    cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
+                    cmd.Parameters.AddWithValue("@Email", email.ToLower());
+                    cmd.Parameters.AddWithValue("@balance", balance);
+                    cmd.Parameters.AddWithValue("@joinDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@isActive", true);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Registration successful!");
+                        return true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Registration failed. Please try again.");
+                        return false;
+                    }
+                }
+            }
+        }
+
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string username = ;
-            string password = ;
+            string username = tbUsername.Text.ToLower();
+            string password = tbPassword.Text;
 
-            if (AuthenticateUser(username, password))
+            if (AuthenticateUser(username, EasyEncryption.SHA.ComputeSHA256Hash(password)))
             {
                 MessageBox.Show("Login successful!");
+
+                User uw = new User();
+                this.Close();
+                uw.Show();
             }
             else
             {
-                .Text = "Invalid username or password.";
+                tbResult.Text = "Invalid username or password.";
             }
         }
 
-        private void CreateDatabaseAndTables()
+        private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
-            using (SQLiteConnection conn = new SQLiteConnection(dbConnectionString))
-            {
-                conn.Open();
-
-                // Bettors tábla létrehozása
-                string createBettorsTableQuery = @"
-                    CREATE TABLE IF NOT EXISTS Bettors (
-                        BettorsID INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Username TEXT NOT NULL,
-                        Balance INTEGER NOT NULL,
-                        Email TEXT NOT NULL,
-                        Password TEXT NOT NULL,
-                        JoinDate DATE NOT NULL,
-                        IsActive BOOLEAN NOT NULL DEFAULT 1
-                    );";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(createBettorsTableQuery, conn))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-
-                // Events tábla létrehozása
-                string createEventsTableQuery = @"
-                    CREATE TABLE IF NOT EXISTS Events (
-                        EventID INTEGER PRIMARY KEY AUTOINCREMENT,
-                        EventName TEXT NOT NULL,
-                        EventDate DATE NOT NULL,
-                        Category TEXT NOT NULL,
-                        Location TEXT NOT NULL
-                    );";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(createEventsTableQuery, conn))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-
-                // Bets tábla létrehozása
-                string createBetsTableQuery = @"
-                    CREATE TABLE IF NOT EXISTS Bets (
-                        BetsID INTEGER PRIMARY KEY AUTOINCREMENT,
-                        BetDate DATE NOT NULL,
-                        Odds REAL NOT NULL,
-                        Amount INTEGER NOT NULL,
-                        BettorsID INTEGER NOT NULL,
-                        EventID INTEGER NOT NULL,
-                        Status BOOLEAN NOT NULL,
-                        FOREIGN KEY (BettorsID) REFERENCES Bettors(BettorsID),
-                        FOREIGN KEY (EventID) REFERENCES Events(EventID)
-                    );";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(createBetsTableQuery, conn))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-
-                // Teszt adatok beszúrása Bettors táblába
-                string insertTestDataQuery = @"
-                    INSERT INTO Bettors (Username, Balance, Email, Password, JoinDate, IsActive)
-                    SELECT 'admin', 1000, 'admin@example.com', 'password', '2023-01-01', 1
-                    WHERE NOT EXISTS (SELECT 1 FROM Bettors WHERE Username = 'admin');";
-
-                using (SQLiteCommand cmd = new SQLiteCommand(insertTestDataQuery, conn))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            RegisterUser(tbUsername.Text.ToLower(), EasyEncryption.SHA.ComputeSHA256Hash(tbPassword.Text), tbEmail.Text, 10000);
         }
-
     }
 }
