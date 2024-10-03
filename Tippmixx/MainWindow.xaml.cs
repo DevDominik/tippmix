@@ -136,12 +136,7 @@ namespace Tippmixx
             }
         }
 
-        private void btnRegister_Click(object sender, RoutedEventArgs e)
-        {
-            RegisterUser(tbUsername.Text.ToLower(), EasyEncryption.SHA.ComputeSHA256Hash(tbPassword.Text), tbEmail.Text, 10000);
-        }
-
-        private void lviLogin_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void lviAction_Selected(object sender, RoutedEventArgs e)
         {
             string username = tbUsername.Text.ToLower();
             string password = tbPassword.Text;
@@ -160,9 +155,9 @@ namespace Tippmixx
             }
         }
 
-        private void lviAction_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void lviSwitch_Selected(object sender, RoutedEventArgs e)
         {
-
+            RegisterUser(tbUsername.Text.ToLower(), EasyEncryption.SHA.ComputeSHA256Hash(tbPassword.Text), tbEmail.Text, 10000);
         }
     }
 }

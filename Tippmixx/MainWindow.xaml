@@ -45,13 +45,13 @@
                 <RowDefinition Height="0.6*"/>
                 <RowDefinition Height="0.4*"></RowDefinition>
             </Grid.RowDefinitions>
-            <ListViewItem Margin="5 1" x:Name="lviAction" PreviewMouseDown="lviAction_PreviewMouseDown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+            <ListViewItem Margin="5 1" x:Name="lviAction" PreviewMouseDown="lviAction_Selected" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Selected="lviAction_Selected">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Login" Height="20px" Width="20px" Margin="0 0 5 0"/>
                     <TextBlock Text="Sign in" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
-            <ListViewItem Margin="5 1" x:Name="lviSwitch" PreviewMouseDown="lviLogin_PreviewMouseDown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1">
+            <ListViewItem Margin="5 1" x:Name="lviSwitch" PreviewMouseDown="lviSwitch_Selected" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1" Selected="lviSwitch_Selected">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock FontSize="10" Text="Not a member yet? Sign up." VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>

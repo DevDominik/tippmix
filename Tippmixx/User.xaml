@@ -10,12 +10,21 @@
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Background="#2f2f2f">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="#2f2f2f" Width="150px">
             <Label Background="#4f4f4f" x:Name="lbUsername" Content=""></Label>
             <Label Background="#4f4f4f" x:Name="lbEmail" Content=""></Label>
             <Label Background="#4f4f4f" x:Name="lbBalance" Content=""></Label>
             <Label Background="#4f4f4f" x:Name="lbIsactive" Content=""></Label>
             <Label Background="#4f4f4f" x:Name="lbClass" Content=""></Label>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            
         </StackPanel>
     </Grid>
 </Window>
