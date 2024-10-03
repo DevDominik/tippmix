@@ -7,6 +7,11 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="App.config" />
+    <None Remove="img\tippmixlogo.png" />
+    <None Remove="src\img\tippmixlogo.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="EasyEncryption" Version="1.0.2" />
     <PackageReference Include="FluentWPF" Version="0.10.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
@@ -16,5 +21,18 @@
     <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\tippmixlogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="src\img\tippmixlogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

@@ -8,24 +8,26 @@
         Title="Auth" Height="600" Width="450">
     <Grid Background="#2f2f2f">
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="14*"></RowDefinition>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="39*"></RowDefinition>
+            <RowDefinition Height="39*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.RowSpan="2" Background="Transparent">
+        <Image x:Name="imgLogo" Width="100px" Height="100px" Source="./img/tippmixlogo.png"></Image>
+        <StackPanel Grid.Row="2" Grid.RowSpan="2" Background="Transparent">
             <TextBox x:Name="tbUsername" Background="#4f4f4f" Margin="5px"></TextBox>
             <TextBox x:Name="tbPassword" Background="#4f4f4f" Margin="5px"></TextBox>
             <TextBox x:Name="tbEmail" Background="#4f4f4f" Margin="5px"></TextBox>
             <StackPanel Orientation="Horizontal">
-            <Button Width="210" Margin="8px" x:Name="btnLogin" Click="LoginButton_Click">Login</Button>
-            <Button Width="210" Margin="8px" x:Name="btnRegister" Click="btnRegister_Click">Register</Button>
+                <Button Width="210" Margin="8px" x:Name="btnLogin" Click="LoginButton_Click">Login</Button>
+                <Button Width="210" Margin="8px" x:Name="btnRegister" Click="btnRegister_Click">Register</Button>
             </StackPanel>
             <TextBlock x:Name="tbResult" Background="#3b3b3b" Margin="8px" Height="50px"></TextBlock>
         </StackPanel>
-        
+
     </Grid>
 </Window>

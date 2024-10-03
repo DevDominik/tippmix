@@ -30,8 +30,5 @@ namespace Tippmixx
             lbClass.Content = Session.Class;
         }
 
-
-
-
     }
 }
