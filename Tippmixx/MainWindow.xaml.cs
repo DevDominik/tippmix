@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
 using EasyEncryption;
+using MaterialDesignThemes.Wpf;
 namespace Tippmixx
 {
     /// <summary>
@@ -165,12 +166,14 @@ namespace Tippmixx
                 isLogin = false;
                 tbState.Text = "Already a member? Sign in";
                 tbStateBtn.Text = "Register";
+                mdpi_Action.Kind = PackIconKind.Register;
                 return;
             }
             splEmail.Visibility = Visibility.Collapsed;
             splPasswordRep.Visibility = Visibility.Collapsed;
             tbStateBtn.Text = "Log in";
             tbState.Text = "Not a member yet? Sign up";
+            mdpi_Action.Kind = PackIconKind.Login;
             isLogin = true;
         }
     }

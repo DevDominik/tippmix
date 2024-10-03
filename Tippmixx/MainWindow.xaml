@@ -53,7 +53,7 @@
             </ListViewItem>
             <ListViewItem Margin="5 1" x:Name="lviSwitch" PreviewMouseDown="lviSwitch_Selected" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1" Selected="lviSwitch_Selected">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock x:Name="tbState" FontSize="10" Text="Not a member yet? Sign up." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="tbState" FontSize="10" Text="Not a member yet? Sign up" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
         </Grid>
