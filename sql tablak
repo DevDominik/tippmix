@@ -28,8 +28,7 @@ CREATE TABLE Events (
   Location VARCHAR(100) NOT NULL             
 );
 
-CREATE TABLE perm ( ID CHARACTER(8) NOT NULL PRIMARY KEY, BettorID INT NOT NULL, PermName VARCHAR(50), FOREIGN KEY (BettorId) REFERENCES bettors(BettorsID) );
-
+CREATE TABLE perm ( ID CHARACTER(8) NOT NULL PRIMARY KEY, BettorID INT NOT NULL, PermName VARCHAR(50) not NULL, FOREIGN KEY (BettorId) REFERENCES bettors(BettorsID) );
 
 -- Insert test data into Bettors
 INSERT INTO Bettors (Username, Balance, Email, Password, JoinDate, IsActive)
