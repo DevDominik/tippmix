@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Tippmixx"
+        xmlns:local="clr-namespace:Tippmixx" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="User" Height="450" Width="800">
-    <Grid Background="#2f2f2f">
+    <Grid Background="#ffffff">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
@@ -16,15 +16,39 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="#2f2f2f" Width="150px">
-            <Label Background="#4f4f4f" x:Name="lbUsername" Content=""></Label>
-            <Label Background="#4f4f4f" x:Name="lbEmail" Content=""></Label>
-            <Label Background="#4f4f4f" x:Name="lbBalance" Content=""></Label>
-            <Label Background="#4f4f4f" x:Name="lbIsactive" Content=""></Label>
-            <Label Background="#4f4f4f" x:Name="lbClass" Content=""></Label>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="#ffffff" Width="150px">
+            <Label Background="White" x:Name="lbUsername" Content=""></Label>
+            <Label Background="White" x:Name="lbEmail" Content=""></Label>
+            <Label Background="White" x:Name="lbBalance" Content=""></Label>
+            <Label Background="White" x:Name="lbIsactive" Content=""></Label>
+            <Label Background="White" x:Name="lbClass" Content=""></Label>
+            <StackPanel Grid.Column="1">
+                <ListViewItem Margin="5 1" x:Name="lviBettingPagebtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <materialDesign:PackIcon x:Name="mdpi_Action" Kind="Casino" Height="20px" Width="20px" Margin="0 0 5 0"/>
+                        <TextBlock x:Name="tbBettingPage" Text="Betting page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="5 1" x:Name="lbiMyBets" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <materialDesign:PackIcon x:Name="mdpi_Action2" Kind="Diamond" Height="20px" Width="20px" Margin="0 0 5 0"/>
+                        <TextBlock x:Name="tbMyBetsPage" Text="My Bets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="5 1" x:Name="lbiOrganize" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <materialDesign:PackIcon x:Name="mdpi_Action4" Kind="Event" Height="20px" Width="20px" Margin="0 0 5 0"/>
+                        <TextBlock x:Name="tbOrganizerPage" Text="Organize Events" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="5 1" x:Name="lbiAdminPanelBtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <materialDesign:PackIcon x:Name="adminpanelicon" Kind="Administrator" Height="20px" Width="20px" Margin="0 0 5 0"/>
+                        <TextBlock x:Name="tbAdminPanelPage" Text="Admin Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </ListViewItem>
+            </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Column="1">
-            
-        </StackPanel>
+        
     </Grid>
 </Window>

@@ -13,7 +13,7 @@ namespace Tippmixx
         public static string Email { get; set; }
         public static int Balance { get; set; }
         public static bool IsActive { get; set; }
-        public static string Class {  get; set; }
+        public static List<string> Perm {  get; set; }
 
     }
 

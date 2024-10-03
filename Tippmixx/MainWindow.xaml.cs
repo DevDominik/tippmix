@@ -36,9 +36,9 @@ namespace Tippmixx
             {
                 conn.Open();
                 string query = @"
-            SELECT Username, Email, Balance, IsActive 
-            FROM Bettors 
-            WHERE Username = @username AND Password = @password";
+                SELECT Username, Email, Balance, IsActive 
+                FROM Bettors 
+                WHERE Username = @username AND Password = @password";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -54,7 +54,7 @@ namespace Tippmixx
                             Session.Email = reader["Email"].ToString();
                             Session.Balance = Convert.ToInt32(reader["Balance"]);
                             Session.IsActive = Convert.ToBoolean(reader["IsActive"]);
-                            Session.Class = Session.Username == "admin" ? "Admin" : Session.Username == "organizer" ? "Organizer" : "User";
+                            //Session.Perm.Add();
 
                             return true;
                         }
@@ -118,45 +118,40 @@ namespace Tippmixx
             }
         }
 
-
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            string username = tbUsername.Text.ToLower();
-            string password = tbPassword.Password;
-
-            if (AuthenticateUser(username, EasyEncryption.SHA.ComputeSHA256Hash(password)))
-            {
-                MessageBox.Show("Login successful!");
-
-                User uw = new User();
-                this.Close();
-                uw.Show();
-            }
-            else
-            {
-                //tbResult.Text = "Invalid username or password.";
-            }
-        }
-
         private void lviAction_Selected(object sender, RoutedEventArgs e)
         {
             string username = tbUsername.Text.ToLower();
             string password = tbPassword.Password;
-
-            if (AuthenticateUser(username, EasyEncryption.SHA.ComputeSHA256Hash(password)))
+            string pwrepeat = tbPasswordRep.Password;
+            string email = tbEmail.Text.ToLower();
+            if (isLogin == true)
             {
-                MessageBox.Show("Login successful!");
 
-                User uw = new User();
-                this.Close();
-                uw.Show();
+                if (AuthenticateUser(username, EasyEncryption.SHA.ComputeSHA256Hash(password)))
+                {
+                    MessageBox.Show("Login successful!");
+
+                    User uw = new User();
+                    this.Close();
+                    uw.Show();
+                }
+                else
+                {
+                    //tbResult.Text = "Invalid username or password.";
+                }
             }
             else
             {
-                //tbResult.Text = "Invalid username or password.";
+                if (password == pwrepeat)
+                {
+                    RegisterUser(username, password, email, 10000);
+                }
+                else
+                {
+                    MessageBox.Show("Nem egyezik a 2 jelszo");
+                }
             }
         }
-
         private void lviSwitch_Selected(object sender, RoutedEventArgs e)
         {
             if (isLogin)

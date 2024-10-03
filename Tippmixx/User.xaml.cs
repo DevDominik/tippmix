@@ -27,7 +27,7 @@ namespace Tippmixx
             lbEmail.Content = Session.Email;
             lbBalance.Content = Session.Balance;
             lbIsactive.Content = Session.IsActive ? "Aktív" : "Inaktív";
-            lbClass.Content = Session.Class;
+            lbClass.Content = Session.Perm;
         }
 
     }
