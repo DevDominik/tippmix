@@ -25,19 +25,19 @@
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent">
             <StackPanel x:Name="splUsername" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <materialDesign:PackIcon Kind="Person" Height="20px" Width="20px" Margin="0 10px"/>
-                <TextBox x:Name="tbUsername" Margin="5px" Width="250px"></TextBox>
+                <TextBox x:Name="tbUsername" Margin="5px" Width="250px"/>
             </StackPanel>
-            <StackPanel x:Name="splEmail" Visibility="Visible" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel x:Name="splEmail" Visibility="Collapsed" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <materialDesign:PackIcon Kind="At" Height="20px" Width="20px" Margin="0 10px"/>
-                <TextBox x:Name="tbEmail" Margin="5px" Width="250px"></TextBox>
+                <TextBox x:Name="tbEmail" Margin="5px" Width="250px"/>
             </StackPanel>
             <StackPanel x:Name="splPassword" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <materialDesign:PackIcon Kind="Key" Height="20px" Width="20px" Margin="0 10px"/>
-                <TextBox x:Name="tbPassword" Margin="5px" Width="250px"></TextBox>
+                <PasswordBox x:Name="tbPassword" Margin="5px" Width="250px"/>
             </StackPanel>
-            <StackPanel x:Name="splPasswordRep" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel x:Name="splPasswordRep" Visibility="Collapsed" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <materialDesign:PackIcon Kind="KeyAdd" Height="20px" Width="20px" Margin="0 10px"/>
-                <TextBox x:Name="tbPasswordRep" Margin="5px" Width="250px"></TextBox>
+                <PasswordBox x:Name="tbPasswordRep" Margin="5px" Width="250px"/>
             </StackPanel>
         </StackPanel>
         <Grid Grid.Row="2">
@@ -47,7 +47,7 @@
             </Grid.RowDefinitions>
             <ListViewItem Margin="5 1" x:Name="lviAction" PreviewMouseDown="lviAction_Selected" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Selected="lviAction_Selected">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Login" Height="20px" Width="20px" Margin="0 0 5 0"/>
+                    <materialDesign:PackIcon x:Name="mdpi_Action" Kind="Login" Height="20px" Width="20px" Margin="0 0 5 0"/>
                     <TextBlock Text="Sign in" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
