@@ -48,12 +48,12 @@
             <ListViewItem Margin="5 1" x:Name="lviAction" PreviewMouseDown="lviAction_Selected" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Selected="lviAction_Selected">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon x:Name="mdpi_Action" Kind="Login" Height="20px" Width="20px" Margin="0 0 5 0"/>
-                    <TextBlock Text="Sign in" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="tbStateBtn" Text="Sign in" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
             <ListViewItem Margin="5 1" x:Name="lviSwitch" PreviewMouseDown="lviSwitch_Selected" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1" Selected="lviSwitch_Selected">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock FontSize="10" Text="Not a member yet? Sign up." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="tbState" FontSize="10" Text="Not a member yet? Sign up." VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
         </Grid>

@@ -163,10 +163,14 @@ namespace Tippmixx
                 splEmail.Visibility = Visibility.Visible;
                 splPasswordRep.Visibility = Visibility.Visible;
                 isLogin = false;
+                tbState.Text = "Already a member? Sign in";
+                tbStateBtn.Text = "Register";
                 return;
             }
             splEmail.Visibility = Visibility.Collapsed;
             splPasswordRep.Visibility = Visibility.Collapsed;
+            tbStateBtn.Text = "Log in";
+            tbState.Text = "Not a member yet? Sign up";
             isLogin = true;
         }
     }
