@@ -120,7 +120,7 @@ namespace Tippmixx
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string username = tbUsername.Text.ToLower();
-            string password = tbPassword.Text;
+            string password = tbPassword.Password;
 
             if (AuthenticateUser(username, EasyEncryption.SHA.ComputeSHA256Hash(password)))
             {
@@ -139,7 +139,7 @@ namespace Tippmixx
         private void lviAction_Selected(object sender, RoutedEventArgs e)
         {
             string username = tbUsername.Text.ToLower();
-            string password = tbPassword.Text;
+            string password = tbPassword.Password;
 
             if (AuthenticateUser(username, EasyEncryption.SHA.ComputeSHA256Hash(password)))
             {
@@ -157,7 +157,13 @@ namespace Tippmixx
 
         private void lviSwitch_Selected(object sender, RoutedEventArgs e)
         {
-            RegisterUser(tbUsername.Text.ToLower(), EasyEncryption.SHA.ComputeSHA256Hash(tbPassword.Text), tbEmail.Text, 10000);
+            if (true)
+            {
+
+            }
+            splEmail.Visibility = Visibility.Visible;
+            splPasswordRep.Visibility = Visibility.Visible;
+            
         }
     }
 }
