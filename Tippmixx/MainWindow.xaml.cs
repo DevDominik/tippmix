@@ -132,13 +132,37 @@ namespace Tippmixx
             }
             else
             {
-                tbResult.Text = "Invalid username or password.";
+                //tbResult.Text = "Invalid username or password.";
             }
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             RegisterUser(tbUsername.Text.ToLower(), EasyEncryption.SHA.ComputeSHA256Hash(tbPassword.Text), tbEmail.Text, 10000);
+        }
+
+        private void lviLogin_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            string username = tbUsername.Text.ToLower();
+            string password = tbPassword.Text;
+
+            if (AuthenticateUser(username, EasyEncryption.SHA.ComputeSHA256Hash(password)))
+            {
+                MessageBox.Show("Login successful!");
+
+                User uw = new User();
+                this.Close();
+                uw.Show();
+            }
+            else
+            {
+                //tbResult.Text = "Invalid username or password.";
+            }
+        }
+
+        private void lviAction_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

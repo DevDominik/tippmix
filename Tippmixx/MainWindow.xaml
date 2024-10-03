@@ -5,29 +5,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tippmixx"
         mc:Ignorable="d"
-        Title="Auth" Height="600" Width="450">
-    <Grid Background="#2f2f2f">
+        Title="Auth" Height="400" Width="300"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" 
+        fw:AcrylicWindow.Enabled="True"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="14*"></RowDefinition>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="39*"></RowDefinition>
-            <RowDefinition Height="39*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
+            <RowDefinition Height="0.45*"/>
+            <RowDefinition Height="0.25*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
 
         <Image x:Name="imgLogo" Width="100px" Height="100px" Source="./img/tippmixlogo.png"></Image>
-        <StackPanel Grid.Row="2" Grid.RowSpan="2" Background="Transparent">
-            <TextBox x:Name="tbUsername" Background="#4f4f4f" Margin="5px"></TextBox>
-            <TextBox x:Name="tbPassword" Background="#4f4f4f" Margin="5px"></TextBox>
-            <TextBox x:Name="tbEmail" Background="#4f4f4f" Margin="5px"></TextBox>
-            <StackPanel Orientation="Horizontal">
-                <Button Width="210" Margin="8px" x:Name="btnLogin" Click="LoginButton_Click">Login</Button>
-                <Button Width="210" Margin="8px" x:Name="btnRegister" Click="btnRegister_Click">Register</Button>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent">
+            <StackPanel x:Name="splUsername" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <materialDesign:PackIcon Kind="Person" Height="20px" Width="20px" Margin="0 10px"/>
+                <TextBox x:Name="tbUsername" Margin="5px" Width="250px"></TextBox>
             </StackPanel>
-            <TextBlock x:Name="tbResult" Background="#3b3b3b" Margin="8px" Height="50px"></TextBlock>
+            <StackPanel x:Name="splEmail" Visibility="Visible" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <materialDesign:PackIcon Kind="At" Height="20px" Width="20px" Margin="0 10px"/>
+                <TextBox x:Name="tbEmail" Margin="5px" Width="250px"></TextBox>
+            </StackPanel>
+            <StackPanel x:Name="splPassword" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <materialDesign:PackIcon Kind="Key" Height="20px" Width="20px" Margin="0 10px"/>
+                <TextBox x:Name="tbPassword" Margin="5px" Width="250px"></TextBox>
+            </StackPanel>
+            <StackPanel x:Name="splPasswordRep" Width="280px" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <materialDesign:PackIcon Kind="KeyAdd" Height="20px" Width="20px" Margin="0 10px"/>
+                <TextBox x:Name="tbPasswordRep" Margin="5px" Width="250px"></TextBox>
+            </StackPanel>
         </StackPanel>
-
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.6*"/>
+                <RowDefinition Height="0.4*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ListViewItem Margin="5 1" x:Name="lviAction" PreviewMouseDown="lviAction_PreviewMouseDown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Login" Height="20px" Width="20px" Margin="0 0 5 0"/>
+                    <TextBlock Text="Sign in" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem Margin="5 1" x:Name="lviSwitch" PreviewMouseDown="lviLogin_PreviewMouseDown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock FontSize="10" Text="Not a member yet? Sign up." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
+        </Grid>
     </Grid>
 </Window>
