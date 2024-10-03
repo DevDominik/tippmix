@@ -22,6 +22,7 @@ namespace Tippmixx
     /// </summary>
     public partial class Window1 : Window
     {
+        private static bool isLogin = true;
         public Window1()
         {
             InitializeComponent();
@@ -157,13 +158,16 @@ namespace Tippmixx
 
         private void lviSwitch_Selected(object sender, RoutedEventArgs e)
         {
-            if (true)
+            if (isLogin)
             {
-
+                splEmail.Visibility = Visibility.Visible;
+                splPasswordRep.Visibility = Visibility.Visible;
+                isLogin = false;
+                return;
             }
-            splEmail.Visibility = Visibility.Visible;
-            splPasswordRep.Visibility = Visibility.Visible;
-            
+            splEmail.Visibility = Visibility.Collapsed;
+            splPasswordRep.Visibility = Visibility.Collapsed;
+            isLogin = true;
         }
     }
 }
