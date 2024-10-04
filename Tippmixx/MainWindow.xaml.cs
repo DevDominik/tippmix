@@ -127,7 +127,7 @@ namespace Tippmixx
             if (isLogin == true)
             {
 
-                if (AuthenticateUser(username, EasyEncryption.SHA.ComputeSHA256Hash(password)))
+                if (AuthenticateUser(username, password))
                 {
                     MessageBox.Show("Login successful!");
 
@@ -137,7 +137,7 @@ namespace Tippmixx
                 }
                 else
                 {
-                    //tbResult.Text = "Invalid username or password.";
+                    MessageBox.Show("Invalid user/pass");
                 }
             }
             else
