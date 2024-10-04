@@ -21,37 +21,46 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="#ffffff">
-            <Label Background="White" x:Name="lbUsername" Content=""></Label>
-            <Label Background="White" x:Name="lbEmail" Content=""></Label>
-            <Label Background="White" x:Name="lbBalance" Content=""></Label>
-            <Label Background="White" x:Name="lbIsactive" Content=""></Label>
-            <Label Background="White" x:Name="lbClass" Content=""></Label>
-            <StackPanel Grid.Column="1">
-                <ListViewItem Margin="5 1" x:Name="lviBettingPage" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <materialDesign:PackIcon x:Name="mdpi_Action" Kind="Casino" Height="20px" Width="20px" Margin="0 0 5 0"/>
-                        <TextBlock x:Name="tbBettingPage" Text="Betting Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="5 1" x:Name="lbiMyBets" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <materialDesign:PackIcon x:Name="mdpi_Action2" Kind="Diamond" Height="20px" Width="20px" Margin="0 0 5 0"/>
-                        <TextBlock x:Name="tbMyBetsPage" Text="My Bets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="5 1" x:Name="lbiOrganize" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <materialDesign:PackIcon x:Name="mdpi_Action4" Kind="Event" Height="20px" Width="20px" Margin="0 0 5 0"/>
-                        <TextBlock x:Name="tbOrganizerPage" Text="Organize Events" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
-                <ListViewItem Margin="5 1" x:Name="lbiAdminPanelBtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <materialDesign:PackIcon x:Name="adminpanelicon" Kind="Gear" Height="20px" Width="20px" Margin="0 0 5 0"/>
-                        <TextBlock x:Name="tbAdminPanelPage" Text="Admin Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </ListViewItem>
+            <TextBlock Style="{StaticResource title}" Text="Statistics"></TextBlock>
+            <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
+                <materialDesign:PackIcon x:Name="mdpi_UserCreds" Kind="Person"/>
+                <TextBlock x:Name="tbUsername" Text="Username"/>
             </StackPanel>
+            <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
+                <materialDesign:PackIcon x:Name="mdpi_Balance" Kind="Dollar"/>
+                <TextBlock x:Name="tbBalance" Text="0"/>
+            </StackPanel>
+            <TextBlock Style="{StaticResource title}" Text="Control Options"></TextBlock>
+            <ListViewItem Margin="5 1" x:Name="lviBettingPage" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Casino"/>
+                    <TextBlock x:Name="tbBettingPage" Text="Betting Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem Margin="5 1" x:Name="lbiMyBets" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Diamond"/>
+                    <TextBlock x:Name="tbMyBetsPage" Text="My Bets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem Margin="5 1" x:Name="lbiOrganize" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Event"/>
+                    <TextBlock x:Name="tbOrganizerPage" Text="Organize Events" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem Margin="5 1" x:Name="lviSettings" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Gear"/>
+                    <TextBlock x:Name="tbSettings" Text="Settings" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem Margin="5 1" x:Name="lbiAdminPanelBtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Wrench"/>
+                    <TextBlock x:Name="tbAdminPanelPage" Text="Admin Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
         </StackPanel>
         
     </Grid>

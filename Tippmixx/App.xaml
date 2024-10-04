@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Tippmixx"
-             StartupUri="MainWindow.xaml">
+             StartupUri="MainWindow.xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
 
         <ResourceDictionary>
@@ -13,7 +14,40 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignNavigationListBoxItem}"></Style>
+            <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignNavigationListBoxItem}"/>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush>
+                            <SolidColorBrush.Color>
+                                <Color A="255" R="50" G="50" B="50"></Color>
+                            </SolidColorBrush.Color>
+                        </SolidColorBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="TextBlock" x:Key="title">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontWeight" Value="DemiBold"/>
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush>
+                            <SolidColorBrush.Color>
+                                <Color A="255" R="50" G="50" B="50"></Color>
+                            </SolidColorBrush.Color>
+                        </SolidColorBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="Width" Value="20"/>
+                <Setter Property="Margin" Value="0 0 5 0"/>
+            </Style>
+            <Style x:Key="stats" TargetType="StackPanel">
+                <Setter Property="Margin" Value="17 0"></Setter>
+            </Style>
         </ResourceDictionary>
 
     </Application.Resources>
