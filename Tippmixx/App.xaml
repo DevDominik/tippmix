@@ -46,7 +46,7 @@
                 <Setter Property="Margin" Value="0 0 5 0"/>
             </Style>
             <Style x:Key="stats" TargetType="StackPanel">
-                <Setter Property="Margin" Value="17 0"></Setter>
+                <Setter Property="Margin" Value="17 5 0 5"></Setter>
             </Style>
         </ResourceDictionary>
 
