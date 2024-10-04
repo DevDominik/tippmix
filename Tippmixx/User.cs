@@ -80,7 +80,7 @@ namespace Tippmixx
         public int Balance { get { return balance; } set {  balance = value; OnPropertyChanged(); } }
         public string Email { get { return email; } set { email = value; OnPropertyChanged(); } }
                 
-        public DateTime Joindate { get { return joindate; } set { joindate = value; OnPropertyChanged(); } }
+        public DateTime JoinDate { get { return joindate; } set { joindate = value; OnPropertyChanged(); } }
         public bool Status { get { return status; } set { status = value; OnPropertyChanged(); } }
     }
 }
