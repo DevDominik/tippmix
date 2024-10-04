@@ -9,6 +9,16 @@
       Title="Admin">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" Margin="10px" x:Name="dtgFelhasznalok"></DataGrid>
         
     </Grid>
 </Page>
