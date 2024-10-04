@@ -31,13 +31,13 @@
                 <TextBlock x:Name="tbBalance" Text="0"/>
             </StackPanel>
             <TextBlock Style="{StaticResource title}" Text="Control Options"></TextBlock>
-            <ListViewItem Margin="5 1" x:Name="lviBettingPage" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+            <ListViewItem Margin="5 1" x:Name="lviBettingPage" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviBettingPage_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Casino"/>
                     <TextBlock x:Name="tbBettingPage" Text="Betting Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
-            <ListViewItem Margin="5 1" x:Name="lbiMyBets" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviBettingPage_PreviewMouseDown">
+            <ListViewItem Margin="5 1" x:Name="lbiMyBets" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviMyBets_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Diamond"/>
                     <TextBlock x:Name="tbMyBetsPage" Text="My Bets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
