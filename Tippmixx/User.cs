@@ -19,7 +19,7 @@ namespace Tippmixx
         int balance;
         string email;
         DateTime joindate;
-        bool status;
+        bool isActive;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -55,7 +55,7 @@ namespace Tippmixx
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
-                string query = $"UPDATE `bettors` SET `{name}` = '{this.GetType().GetProperty(name).GetValue(this, null)}' WHERE `bettors`.`BettorsID` = {id}";
+                string query = $"UPDATE `bettors` SET `{name}` = '{GetType().GetProperty(name).GetValue(this, null)}' WHERE `bettors`.`BettorsID` = {id}";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -65,14 +65,14 @@ namespace Tippmixx
 
         }
 
-        public User(int id, string username, int balance, string email, DateTime joindate, bool status)
+        public User(int id, string username, int balance, string email, DateTime joindate, bool isActive)
         {
             this.id = id;
             this.username = username;
             this.balance = balance;
             this.email = email;
             this.joindate = joindate;
-            this.status = status;
+            this.isActive = isActive;
         }
 
         public int Id { get { return id; } set { id = value; OnPropertyChanged(); } }
@@ -80,7 +80,7 @@ namespace Tippmixx
         public int Balance { get { return balance; } set {  balance = value; OnPropertyChanged(); } }
         public string Email { get { return email; } set { email = value; OnPropertyChanged(); } }
                 
-        public DateTime Joindate { get { return joindate; } set { joindate = value; OnPropertyChanged(); } }
-        public bool Status { get { return status; } set { status = value; OnPropertyChanged(); } }
+        public DateTime JoinDate { get { return joindate; } set { joindate = value; OnPropertyChanged(); } }
+        public bool IsActive { get { return isActive; } set { isActive = value; OnPropertyChanged(); } }
     }
 }
