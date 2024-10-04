@@ -20,10 +20,10 @@ namespace Tippmixx
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class Auth : Window
     {
         private static bool isLogin = true;
-        public Window1()
+        public Auth()
         {
             InitializeComponent();
         }
@@ -130,7 +130,7 @@ namespace Tippmixx
                 {
                     MessageBox.Show("Login successful!");
 
-                    User uw = new User();
+                    UserPage uw = new UserPage();
                     this.Close();
                     uw.Show();
                 }

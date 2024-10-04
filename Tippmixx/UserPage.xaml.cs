@@ -17,9 +17,9 @@ namespace Tippmixx
     /// <summary>
     /// Interaction logic for User.xaml
     /// </summary>
-    public partial class User : Window
+    public partial class UserPage : Window
     {
-        public User()
+        public UserPage()
         {
             InitializeComponent();
 
