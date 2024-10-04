@@ -52,11 +52,10 @@ namespace Tippmixx
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
-
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
-                string query = $"UPDATE `bettors` SET `Email` = 'tomi@gmail.co' WHERE `bettors`.`BettorsID` = 2";
+                string query = $"UPDATE `bettors` SET `{name}` = '{this.GetType().GetProperty(name).GetValue(this, null)}' WHERE `bettors`.`BettorsID` = {id}";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
