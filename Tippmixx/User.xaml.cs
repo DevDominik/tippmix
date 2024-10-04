@@ -29,7 +29,7 @@ namespace Tippmixx
 
         private void lviBettingPage_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            spPages.Source = new Uri("Betting.xaml", UriKind.RelativeOrAbsolute);
+            spPages.Source = new Uri("Pages/Betting.xaml", UriKind.RelativeOrAbsolute);
         }
 
         private void lviMyBets_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -48,6 +48,11 @@ namespace Tippmixx
         }
 
         private void lviSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void lviLogout_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
 
         }

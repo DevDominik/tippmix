@@ -29,7 +29,7 @@
             <Style TargetType="TextBlock" x:Key="title">
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="FontWeight" Value="DemiBold"/>
-                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Margin" Value="10"/>
                 <Setter Property="Foreground">
                     <Setter.Value>
                         <SolidColorBrush>
@@ -46,7 +46,7 @@
                 <Setter Property="Margin" Value="0 0 5 0"/>
             </Style>
             <Style x:Key="stats" TargetType="StackPanel">
-                <Setter Property="Margin" Value="17 0"></Setter>
+                <Setter Property="Margin" Value="17 5 0 5"></Setter>
             </Style>
         </ResourceDictionary>
 
