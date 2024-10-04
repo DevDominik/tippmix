@@ -55,7 +55,7 @@ namespace Tippmixx
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
-                string query = $"UPDATE `bettors` SET `{name}` = '{this.GetType().GetProperty(name).GetValue(this, null)}' WHERE `bettors`.`BettorsID` = {id}";
+                string query = $"UPDATE `bettors` SET `{name}` = '{GetType().GetProperty(name).GetValue(this, null)}' WHERE `bettors`.`BettorsID` = {id}";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
