@@ -32,8 +32,7 @@ namespace Tippmixx
 
         private void lviBettingPage_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            Betting betpage = new Betting();
-            spPages.Children.Add(betpage);
+            spPages.Source = new Uri("Betting.xaml", UriKind.RelativeOrAbsolute);
         }
 
         private void lbiMyBets_PreviewMouseDown(object sender, MouseButtonEventArgs e)

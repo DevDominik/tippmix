@@ -53,7 +53,7 @@
                 </ListViewItem>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Column="1" Background="AliceBlue" x:Name="spPages"></StackPanel>
+        <Frame Grid.Column="1" Background="AliceBlue" x:Name="spPages"></Frame>
 
     </Grid>
 </Window>
