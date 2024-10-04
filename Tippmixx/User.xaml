@@ -12,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         >
-    <Grid Background="#ffffff">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
@@ -20,7 +20,7 @@
             <ColumnDefinition Width="200px"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Background="#ffffff">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
             <TextBlock Style="{StaticResource title}" Text="Statistics"></TextBlock>
             <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
                 <materialDesign:PackIcon x:Name="mdpi_UserCreds" Kind="Person"/>
@@ -37,25 +37,25 @@
                     <TextBlock x:Name="tbBettingPage" Text="Betting Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
-            <ListViewItem Margin="5 1" x:Name="lbiMyBets" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+            <ListViewItem Margin="5 1" x:Name="lbiMyBets" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviBettingPage_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Diamond"/>
                     <TextBlock x:Name="tbMyBetsPage" Text="My Bets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
-            <ListViewItem Margin="5 1" x:Name="lbiOrganize" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+            <ListViewItem Margin="5 1" x:Name="lviOrganize" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviOrganize_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Event"/>
                     <TextBlock x:Name="tbOrganizerPage" Text="Organize Events" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
-            <ListViewItem Margin="5 1" x:Name="lviSettings" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+            <ListViewItem Margin="5 1" x:Name="lviSettings" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviSettings_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Gear"/>
                     <TextBlock x:Name="tbSettings" Text="Settings" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
-            <ListViewItem Margin="5 1" x:Name="lbiAdminPanelBtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+            <ListViewItem Margin="5 1" x:Name="lviAdminPanelBtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviAdminPanelBtn_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Wrench"/>
                     <TextBlock x:Name="tbAdminPanelPage" Text="Admin Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -63,6 +63,5 @@
             </ListViewItem>
         </StackPanel>
         <Frame Grid.Column="1" x:Name="spPages"></Frame>
-        
     </Grid>
 </Window>
