@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,15 +18,15 @@ namespace Tippmixx
         DateTime joindate;
         bool status;
 
-        public static List<Users> RefreshUserList()
+        public static ObservableCollection<Users> RefreshUserList()
         {
-            List<Users> UsersList = new();
+            ObservableCollection<Users> UsersList = new();
             UsersList.Clear();
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
                 string query = @"
-                SELECT BettorsID, Username, Password, Email, JoinDate, Balance, IsActive 
+                SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
                 FROM Bettors 
                 ";
 
@@ -35,7 +36,7 @@ namespace Tippmixx
                     {
                         while (reader.Read())
                         {
-                            UsersList.Add(new Users(Convert.ToInt32(reader["BettorsID"]),reader["Username"].ToString(), reader["Password"].ToString(), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), DateTime.Parse(reader["JoinDate"].ToString()), (bool)reader["IsActive"]));
+                            UsersList.Add(new Users(Convert.ToInt32(reader["BettorsID"]),reader["Username"].ToString(), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), DateTime.Parse(reader["JoinDate"].ToString()), (bool)reader["IsActive"]));
                         }
                     }
                 }
@@ -44,11 +45,10 @@ namespace Tippmixx
         }
 
 
-        public Users(int id, string username, string password, int balance, string email, DateTime joindate, bool status)
+        public Users(int id, string username, int balance, string email, DateTime joindate, bool status)
         {
             this.Id = id;
             this.Username = username;
-            this.Password = password;
             this.Balance = balance;
             this.Email = email;
             this.Joindate = joindate;
@@ -57,7 +57,6 @@ namespace Tippmixx
 
         public int Id { get => id; set => id = value; }
         public string Username { get => username; set => username = value; }
-        public string Password { get => password; set => password = value; }
         public int Balance { get => balance; set => balance = value; }
         public string Email { get => email; set => email = value; }
         public DateTime Joindate { get => joindate; set => joindate = value; }

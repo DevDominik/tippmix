@@ -44,7 +44,7 @@ namespace Tippmixx
 
         private void lviAdminPanelBtn_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            spPages.Source = new Uri("Admin.xaml", UriKind.RelativeOrAbsolute);
+            spPages.Source = new Uri("Pages/Admin.xaml", UriKind.RelativeOrAbsolute);
         }
 
         private void lviSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
