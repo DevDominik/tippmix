@@ -21,7 +21,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-            <TextBlock Style="{StaticResource title}" Text="Statistics"></TextBlock>
+            <TextBlock Style="{StaticResource title}" Text="Statistics"/>
             <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
                 <materialDesign:PackIcon x:Name="mdpi_UserCreds" Kind="Person"/>
                 <TextBlock x:Name="tbUsername" Text="Username"/>
@@ -30,7 +30,7 @@
                 <materialDesign:PackIcon x:Name="mdpi_Balance" Kind="Dollar"/>
                 <TextBlock x:Name="tbBalance" Text="0"/>
             </StackPanel>
-            <TextBlock Style="{StaticResource title}" Text="Control Options"></TextBlock>
+            <TextBlock Style="{StaticResource title}" Text="Control Options"/>
             <ListViewItem Margin="5 1" x:Name="lviBettingPage" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviBettingPage_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Casino"/>
@@ -49,16 +49,23 @@
                     <TextBlock x:Name="tbOrganizerPage" Text="Organize Events" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
+            <ListViewItem Margin="5 1" x:Name="lviAdminPanelBtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviAdminPanelBtn_PreviewMouseDown">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Wrench"/>
+                    <TextBlock x:Name="tbAdminPanelPage" Text="Admin Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
+            <TextBlock Style="{StaticResource title}" Text="Account"/>
             <ListViewItem Margin="5 1" x:Name="lviSettings" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviSettings_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Gear"/>
                     <TextBlock x:Name="tbSettings" Text="Settings" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
-            <ListViewItem Margin="5 1" x:Name="lviAdminPanelBtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviAdminPanelBtn_PreviewMouseDown">
+            <ListViewItem Margin="5 1" x:Name="lviLogout" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviLogout_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Wrench"/>
-                    <TextBlock x:Name="tbAdminPanelPage" Text="Admin Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="Logout"/>
+                    <TextBlock x:Name="tbLogout" Text="Sign Out" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
         </StackPanel>

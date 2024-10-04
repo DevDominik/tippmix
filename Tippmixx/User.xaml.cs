@@ -51,5 +51,10 @@ namespace Tippmixx
         {
 
         }
+
+        private void lviLogout_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
