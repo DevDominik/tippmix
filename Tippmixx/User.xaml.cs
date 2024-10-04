@@ -30,5 +30,25 @@ namespace Tippmixx
             lbClass.Content = Session.Perm;
         }
 
+        private void lviBettingPage_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Betting betpage = new Betting();
+            spPages.Children.Add(betpage);
+        }
+
+        private void lbiMyBets_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void lbiOrganize_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void lbiAdminPanelBtn_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
