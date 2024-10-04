@@ -9,10 +9,6 @@ namespace Tippmixx
 {
     internal class Users
     {
-
-        static List<Users> UsersList = new();
-
-
         int id;
         string username;
         string password;
@@ -21,13 +17,15 @@ namespace Tippmixx
         DateTime joindate;
         bool status;
 
-        private void RefreshUserList()
+        public static List<Users> RefreshUserList()
         {
+            List<Users> UsersList = new();
+            UsersList.Clear();
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
                 string query = @"
-                SELECT Username, Email, Balance, IsActive 
+                SELECT BettorsID, Username, Password, Email, JoinDate, Balance, IsActive 
                 FROM Bettors 
                 ";
 
@@ -35,18 +33,14 @@ namespace Tippmixx
                 {
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
-                            Session.Username = reader["Username"].ToString();
-                            Session.Password = EasyEncryption.SHA.ComputeSHA256Hash(password);
-                            Session.Email = reader["Email"].ToString();
-                            Session.Balance = Convert.ToInt32(reader["Balance"]);
-                            Session.IsActive = Convert.ToBoolean(reader["IsActive"]);
-                            //Session.Perm.Add();
+                            UsersList.Add(new Users(Convert.ToInt32(reader["BettorsID"]),reader["Username"].ToString(), reader["Password"].ToString(), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), DateTime.Parse(reader["JoinDate"].ToString()), (bool)reader["IsActive"]));
                         }
                     }
                 }
             }
+            return UsersList;
         }
 
 

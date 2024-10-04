@@ -55,7 +55,7 @@
                     <TextBlock x:Name="tbSettings" Text="Settings" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
-            <ListViewItem Margin="5 1" x:Name="lviAdminPanelBtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviAdminPanelBtn_PreviewMouseDown">
+            <ListViewItem x:Name="lviAdminPanelBtn" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PreviewMouseDown="lviAdminPanelBtn_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Wrench"/>
                     <TextBlock x:Name="tbAdminPanelPage" Text="Admin Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>

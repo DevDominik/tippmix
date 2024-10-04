@@ -23,6 +23,7 @@ namespace Tippmixx
         public Admin()
         {
             InitializeComponent();
+            dtgFelhasznalok.ItemsSource = Users.RefreshUserList();
         }
     }
 }
