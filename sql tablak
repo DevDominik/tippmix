@@ -1,15 +1,3 @@
-CREATE TABLE Bets (
-  BetsID INT AUTO_INCREMENT PRIMARY KEY,   
-  BetDate DATE NOT NULL,                   
-  Odds FLOAT NOT NULL,                     
-  Amount INT NOT NULL,                     
-  BettorsID INT NOT NULL,                  
-  EventID INT NOT NULL,                    
-  Status BOOLEAN NOT NULL,             
-  FOREIGN KEY (BettorsID) REFERENCES Bettors(BettorsID),
-  FOREIGN KEY (EventID) REFERENCES Events(EventID)
-);
-
 CREATE TABLE Bettors (
   BettorsID INT AUTO_INCREMENT PRIMARY KEY,  
   Username VARCHAR(50) NOT NULL,
@@ -29,6 +17,18 @@ CREATE TABLE Events (
 );
 
 CREATE TABLE perm ( ID CHARACTER(8) NOT NULL PRIMARY KEY, BettorID INT NOT NULL, PermName VARCHAR(50) not NULL, FOREIGN KEY (BettorId) REFERENCES bettors(BettorsID) );
+
+CREATE TABLE Bets (
+  BetsID INT AUTO_INCREMENT PRIMARY KEY,   
+  BetDate DATE NOT NULL,                   
+  Odds FLOAT NOT NULL,                     
+  Amount INT NOT NULL,                     
+  BettorsID INT NOT NULL,                  
+  EventID INT NOT NULL,                    
+  Status BOOLEAN NOT NULL,             
+  FOREIGN KEY (BettorsID) REFERENCES Bettors(BettorsID),
+  FOREIGN KEY (EventID) REFERENCES Events(EventID)
+);
 
 -- Insert test data into Bettors
 INSERT INTO Bettors (Username, Balance, Email, Password, JoinDate, IsActive)
