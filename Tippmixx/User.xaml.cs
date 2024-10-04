@@ -23,11 +23,8 @@ namespace Tippmixx
         {
             InitializeComponent();
 
-            lbUsername.Content = Session.Username;
-            lbEmail.Content = Session.Email;
-            lbBalance.Content = Session.Balance;
-            lbIsactive.Content = Session.IsActive ? "Aktív" : "Inaktív";
-            lbClass.Content = Session.Perm;
+            tbUsername.Text = Session.Username;
+            tbBalance.Text = Session.Balance.ToString();
         }
 
         private void lviBettingPage_PreviewMouseDown(object sender, MouseButtonEventArgs e)

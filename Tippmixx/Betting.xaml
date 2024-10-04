@@ -9,6 +9,6 @@
       Title="Betting">
 
     <Grid Background="AliceBlue">
-        <Label>asd</Label>
+        <Label>betting</Label>
     </Grid>
 </Page>
