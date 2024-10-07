@@ -8,7 +8,7 @@
         FontSize="15"
         Title="User" Height="650" Width="1200"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" 
-        fw:AcrylicWindow.Enabled="True"
+        fw:AcrylicWindow.Enabled="False"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         >
@@ -46,7 +46,13 @@
             <ListViewItem x:Name="lviOrganize" HorizontalContentAlignment="Left" PreviewMouseDown="lviOrganize_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Event"/>
-                    <TextBlock x:Name="tbOrganizerPage" Text="Organize Events" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="tbOrganizerPage" Text="Organizer Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem x:Name="lviOrganizationControl" HorizontalContentAlignment="Left" PreviewMouseDown="lviOrganizationControl_PreviewMouseDown">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="People"/>
+                    <TextBlock x:Name="tbOrganizationControl" Text="Management" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
             <ListViewItem x:Name="lviAdminPanelBtn" HorizontalContentAlignment="Left" PreviewMouseDown="lviAdminPanelBtn_PreviewMouseDown">

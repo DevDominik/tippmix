@@ -19,6 +19,9 @@
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
+            <Style TargetType="DataGridCell">
+                <Setter Property="Focusable" Value="False"></Setter>
+            </Style>
             <Style TargetType="TextBlock">
                 <Setter Property="Foreground">
                     <Setter.Value>
@@ -38,7 +41,7 @@
                     <Setter.Value>
                         <SolidColorBrush>
                             <SolidColorBrush.Color>
-                                <Color A="255" R="50" G="50" B="50"></Color>
+                                <Color A="255" R="50" G="50" B="50"/>
                             </SolidColorBrush.Color>
                         </SolidColorBrush>
                     </Setter.Value>
@@ -51,6 +54,31 @@
             </Style>
             <Style x:Key="stats" TargetType="StackPanel">
                 <Setter Property="Margin" Value="17 5 0 5"></Setter>
+            </Style>
+            <Style x:Key="menupointLvi" TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignNavigationListBoxItem}">
+                <Setter Property="FontSize" Value="16"></Setter>
+                <Setter Property="Margin" Value="5 1"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="menupointLvi_Selected" TargetType="ListViewItem" BasedOn="{StaticResource menupointLvi}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListViewItem">
+                            <Border Name="Border" BorderThickness="0 0 0 2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush>
+                                        <SolidColorBrush.Color>
+                                            <Color A="255" R="180" G="180" B="180"/>
+                                        </SolidColorBrush.Color>
+                                    </SolidColorBrush>
+                                </Border.BorderBrush>
+                                <ContentPresenter />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
             </Style>
         </ResourceDictionary>
 

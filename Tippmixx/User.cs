@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MaterialDesignThemes.Wpf;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +21,6 @@ namespace Tippmixx
         string email;
         DateTime joindate;
         bool isActive;
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -56,7 +56,12 @@ namespace Tippmixx
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
-                string query = $"UPDATE `bettors` SET `{name}` = '{GetType().GetProperty(name).GetValue(this, null)}' WHERE `bettors`.`BettorsID` = {id}";
+                string updateQueue = GetType().GetProperty(name).GetValue(this, null).ToString();
+                if (name == "IsActive") 
+                { 
+                    updateQueue = isActive ? "1" : "0";
+                }
+                string query = $"UPDATE `bettors` SET `{name}` = '{updateQueue}' WHERE `bettors`.`BettorsID` = {id}";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -74,6 +79,7 @@ namespace Tippmixx
             this.email = email;
             this.joindate = joindate;
             this.isActive = isActive;
+            UserStatusAsIcon = isActive ? PackIconKind.AccountCheck : PackIconKind.AccountCancel;
         }
 
         public int Id { get { return id; } set { id = value; OnPropertyChanged(); } }
@@ -82,6 +88,7 @@ namespace Tippmixx
         public string Email { get { return email; } set { email = value; OnPropertyChanged(); } }
                 
         public DateTime JoinDate { get { return joindate; } set { joindate = value; OnPropertyChanged(); } }
-        public bool IsActive { get { return isActive; } set { isActive = value; OnPropertyChanged(); } }
+        public bool IsActive { get { return isActive; } set { isActive = value; OnPropertyChanged(); UserStatusAsIcon = isActive ? PackIconKind.AccountCheck : PackIconKind.AccountCancel; } }
+        public PackIconKind UserStatusAsIcon { get; private set; }
     }
 }

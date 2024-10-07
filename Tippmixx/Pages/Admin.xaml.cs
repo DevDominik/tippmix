@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,23 +22,46 @@ namespace Tippmixx
     /// </summary>
     public partial class Admin : Page
     {
+        static User? selectedUser = null;
         public Admin()
         {
             InitializeComponent();
             dtgFelhasznalok.ItemsSource = User.RefreshUserList();
         }
 
-        private void ListViewItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void lviPwAct_Details_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
 
         }
 
-        private void lviDetails_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void lviPwAct_ToggleActive_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement baseElement = sender as FrameworkElement;
+            User user = baseElement.DataContext as User;
+            string formattedString = user.IsActive ? "deactivate" : "reactivate";
+            if (MessageBox.Show($"Are you sure you want to {formattedString} user {user.Username}?", "Admin Panel", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                user.IsActive = !user.IsActive;
+            }
+            dtgFelhasznalok.Items.Refresh();
+        }
+
+        private void lviPwAct_CashReset_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
 
         }
 
-        private void lviUserActiveToggle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void lviPwAct_PasswordReset_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void lviPwAct_EmailReset_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void lviMenuPointSwitch_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
 
         }
