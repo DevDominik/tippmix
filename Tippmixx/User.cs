@@ -21,6 +21,7 @@ namespace Tippmixx
         DateTime joindate;
         bool isActive;
 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static ObservableCollection<User> RefreshUserList()

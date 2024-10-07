@@ -26,5 +26,20 @@ namespace Tippmixx
             InitializeComponent();
             dtgFelhasznalok.ItemsSource = User.RefreshUserList();
         }
+
+        private void ListViewItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void lviDetails_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void lviUserActiveToggle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
