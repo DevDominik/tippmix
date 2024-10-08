@@ -85,3 +85,12 @@ VALUES
 ('2023-12-16', 2.1, 150, 3, 1, 0),
 ('2024-02-09', 3.2, 200, 4, 4, 0),
 ('2024-07-13', 2.7, 180, 5, 2, 1);
+
+-- Insert permission levels into PermSettings
+INSERT INTO PermSettings (DisplayName, PermissibilityLevel)
+VALUES
+  ('Organizer', 1),
+  ('Organization Manager', 2),
+  ('Organization Owner', 3),
+  ('Moderator', 4),
+  ('Superuser', 5);
