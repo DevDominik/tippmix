@@ -47,7 +47,7 @@ namespace Tippmixx
                 else
                 {
                     // Valid ID, fetch the specific user
-                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID = {parsedId}";
+                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID LIKE {parsedId}%";
                 }
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
