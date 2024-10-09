@@ -35,7 +35,7 @@ namespace Tippmixx
             {
                 conn.Open();
                 string query = @"
-                SELECT Username, Email, Balance, IsActive 
+                SELECT Username, Email, Balance, IsActive, BettorsID 
                 FROM Bettors 
                 WHERE Username = @username AND Password = @password";
 
@@ -53,8 +53,8 @@ namespace Tippmixx
                             Session.Email = reader["Email"].ToString();
                             Session.Balance = Convert.ToInt32(reader["Balance"]);
                             Session.IsActive = Convert.ToBoolean(reader["IsActive"]);
-                            //Session.Perm.Add();
-
+                            Session.ID = Convert.ToInt32(reader["BettorsID"]);
+                            Session.Permissions = Permission.GetUserPermissions(Session.ID);
                             return true;
                         }
                         else
@@ -83,7 +83,7 @@ namespace Tippmixx
 
                     if (exists > 0)
                     {
-                        MessageBox.Show("Username or email already exists!");
+                        MessageBox.Show("Username or email already exists.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return false;
                     }
                 }
@@ -105,12 +105,12 @@ namespace Tippmixx
 
                     if (rowsAffected > 0)
                     {
-                        MessageBox.Show("Registration successful!");
+                        MessageBox.Show("Registration successful.", "Auth", MessageBoxButton.OK, MessageBoxImage.Information);
                         return true;
                     }
                     else
                     {
-                        MessageBox.Show("Registration failed. Please try again.");
+                        MessageBox.Show("Registration failed. Please try again.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return false;
                     }
                 }
@@ -128,7 +128,12 @@ namespace Tippmixx
 
                 if (AuthenticateUser(username, password))
                 {
-                    MessageBox.Show("Login successful!");
+                    if (!Session.IsActive)
+                    {
+                        MessageBox.Show("Your account has been deactivated. You may not sign in with this account until a staff member reactivates your account.", "Auth", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+                    MessageBox.Show("Login successful.", "Auth", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     UserPage uw = new UserPage();
                     this.Close();
@@ -136,7 +141,7 @@ namespace Tippmixx
                 }
                 else
                 {
-                    MessageBox.Show("Invalid user/pass");
+                    MessageBox.Show("Invalid username or password.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             else
@@ -147,7 +152,7 @@ namespace Tippmixx
                 }
                 else
                 {
-                    MessageBox.Show("Nem egyezik a 2 jelszo");
+                    MessageBox.Show("The two passwords do not match.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
@@ -159,13 +164,13 @@ namespace Tippmixx
                 splPasswordRep.Visibility = Visibility.Visible;
                 isLogin = false;
                 tbState.Text = "Already a member? Sign in";
-                tbStateBtn.Text = "Register";
+                tbStateBtn.Text = "Sign up";
                 mdpi_Action.Kind = PackIconKind.Register;
                 return;
             }
             splEmail.Visibility = Visibility.Collapsed;
             splPasswordRep.Visibility = Visibility.Collapsed;
-            tbStateBtn.Text = "Log in";
+            tbStateBtn.Text = "Sign in";
             tbState.Text = "Not a member yet? Sign up";
             mdpi_Action.Kind = PackIconKind.Login;
             isLogin = true;

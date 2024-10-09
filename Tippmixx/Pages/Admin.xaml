@@ -28,7 +28,7 @@
                 </StackPanel>
             </ListViewItem>
         </StackPanel>
-        <Grid x:Name="grdUserDetails" Background="White" Grid.Row="1">
+        <Grid x:Name="grdUserDetails" Visibility="Visible" Background="White" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="50"/>
@@ -96,7 +96,7 @@
                     <DataGrid x:Name="dtgDetailsRoles" Margin="10 0" CanUserResizeRows="False" CanUserAddRows="False" CanUserResizeColumns="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="False" SelectionChanged="dtgFelhasznalok_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="200" Binding="{Binding DisplayName}" Header="Role Name"/>
-                            <DataGridCheckBoxColumn Binding="{Binding IsEnabled}" Header="Enabled"/>
+                            <DataGridCheckBoxColumn Binding="{Binding IsActive}" Header="Enabled"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

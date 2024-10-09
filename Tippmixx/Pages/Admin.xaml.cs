@@ -26,7 +26,7 @@ namespace Tippmixx
         public Admin()
         {
             InitializeComponent();
-            dtgFelhasznalok.ItemsSource = User.RefreshUserList();
+            dtgFelhasznalok.ItemsSource = User.RefreshUserList(null);
         }
 
         private void lviPwAct_Details_PreviewMouseDown(object sender, MouseButtonEventArgs e)

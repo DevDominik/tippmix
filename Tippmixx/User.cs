@@ -22,9 +22,9 @@ namespace Tippmixx
         string email;
         DateTime joindate;
         bool isActive;
+        ObservableCollection<Permission> permissions;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         public static ObservableCollection<User> RefreshUserList(string input = "-1")
         {
             ObservableCollection<User> UsersList = new();
@@ -74,11 +74,14 @@ namespace Tippmixx
                         }
                     }
                 }
+                
+            }
+            foreach (User user in UsersList)
+            {
+                user.permissions = Permission.GetUserPermissions(user.id);
             }
             return UsersList;
         }
-
-
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
@@ -128,5 +131,6 @@ namespace Tippmixx
         public PackIconKind UserStatusAsIcon { get; private set; }
         public PackIconKind AllowAccessAsIcon {  get; private set; }
         public string AllowAccessAsString { get; private set; }
+        public ObservableCollection<Permission> Permissions { get { return permissions; } set { permissions = value; } }
     }
 }
