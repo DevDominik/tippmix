@@ -105,6 +105,42 @@ END;
 //
 DELIMITER ;
 
+DELIMITER //
+
+CREATE TRIGGER AddPermToAllBettors
+AFTER INSERT ON PermSettings
+FOR EACH ROW
+BEGIN
+    DECLARE bettor_id INT;
+    DECLARE done INT DEFAULT 0;
+
+    -- Declare a cursor to loop through the Bettors table
+    DECLARE cur CURSOR FOR 
+    SELECT BettorsID FROM Bettors;
+
+    -- Declare a handler to exit the loop when there are no more rows
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN cur;
+
+    read_loop: LOOP
+        FETCH cur INTO bettor_id;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        -- Insert the new permission for each BettorID
+        INSERT INTO Perms (BettorID, PermID)
+        VALUES (bettor_id, NEW.PermID); -- Default IsActive to 0 as per your schema
+
+    END LOOP;
+
+    CLOSE cur;
+END;
+
+//
+DELIMITER ;
+
 -- Insert test data into Bettors
 INSERT INTO Bettors (Username, Balance, Email, Password, JoinDate, IsActive)
 VALUES 
