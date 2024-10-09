@@ -23,6 +23,21 @@ namespace Tippmixx
         public OrganizerPage()
         {
             InitializeComponent();
+            dtgEvents.ItemsSource = EventManager.RefreshEventList();
+            EventManager.CreateEvent("Basketball Tournament", new DateTime(2024, 11, 1), "Sports", "Arena B");
+            //EventManager.PlaceBet(1, 2, 1.5f, 100); // BettorID = 1, EventID = 2, Odds = 1.5, Amount = 100
+            //ObservableCollection<Bet> bets = EventManager.GetBetsByEventId(2); // Replace with the actual EventID
+
+        }
+
+        private void dtgEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void tbOrganizerSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            dtgEvents.ItemsSource = EventManager.RefreshEventList(tbOrganizerSearch.Text);
         }
     }
 }

@@ -9,6 +9,10 @@
       Title="OrganizerPage">
 
     <Grid>
-        
+        <StackPanel>
+            <TextBox x:Name="tbOrganizerSearch" TextChanged="tbOrganizerSearch_TextChanged"></TextBox>
+        <DataGrid x:Name="dtgEvents" SelectionChanged="dtgEvents_SelectionChanged"></DataGrid>
+            
+        </StackPanel>
     </Grid>
 </Page>

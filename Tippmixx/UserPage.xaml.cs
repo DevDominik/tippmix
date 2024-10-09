@@ -39,6 +39,7 @@ namespace Tippmixx
 
         private void lviOrganize_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            spPages.Source = new Uri("Pages/Organizer.xaml", UriKind.RelativeOrAbsolute);
 
         }
 
