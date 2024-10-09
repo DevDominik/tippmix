@@ -48,7 +48,7 @@ namespace Tippmixx
                 }
                 else if (input.Any(char.IsLetter))
                 {
-                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE Username LIKE '%{input}%'";
+                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE Username LIKE '{input}%'";
                 }
                 else
                 {
