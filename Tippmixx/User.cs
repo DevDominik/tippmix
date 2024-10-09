@@ -29,46 +29,48 @@ namespace Tippmixx
         {
             ObservableCollection<User> UsersList = new();
             UsersList.Clear();
+
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
 
-                if (id != "-1")
-                {
-                    string query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID = {id}";
+                string query;
 
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    {
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                UsersList.Add(new User(Convert.ToInt32(reader["BettorsID"]), reader["Username"].ToString(), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), DateTime.Parse(reader["JoinDate"].ToString()), (bool)reader["IsActive"]));
-                            }
-                        }
-                    }
+                // Check if the id is -1, invalid, or empty
+                if (id == "-1" || string.IsNullOrWhiteSpace(id) || !int.TryParse(id, out int parsedId))
+                {
+                    // If id is -1 or invalid/empty input, return all users
+                    query = @"
+            SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
+            FROM Bettors";
                 }
-                else if (id == string.Empty)
+                else
                 {
-                    string query = @"
-                    SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
-                    FROM Bettors 
-                    ";
+                    // Valid ID, fetch the specific user
+                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID = {parsedId}";
+                }
 
-                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                UsersList.Add(new User(Convert.ToInt32(reader["BettorsID"]), reader["Username"].ToString(), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), DateTime.Parse(reader["JoinDate"].ToString()), (bool)reader["IsActive"]));
-                            }
+                            UsersList.Add(new User(
+                                Convert.ToInt32(reader["BettorsID"]),
+                                reader["Username"].ToString(),
+                                Convert.ToInt32(reader["Balance"]),
+                                reader["Email"].ToString(),
+                                DateTime.Parse(reader["JoinDate"].ToString()),
+                                (bool)reader["IsActive"]
+                            ));
                         }
                     }
                 }
             }
             return UsersList;
         }
+
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
