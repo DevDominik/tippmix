@@ -61,25 +61,7 @@
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
-            <Style x:Key="menupointLvi_Selected" TargetType="ListViewItem" BasedOn="{StaticResource menupointLvi}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ListViewItem">
-                            <Border Name="Border" BorderThickness="0 0 0 2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Border.BorderBrush>
-                                    <SolidColorBrush>
-                                        <SolidColorBrush.Color>
-                                            <Color A="255" R="180" G="180" B="180"/>
-                                        </SolidColorBrush.Color>
-                                    </SolidColorBrush>
-                                </Border.BorderBrush>
-                                <ContentPresenter />
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
 
-            </Style>
         </ResourceDictionary>
 
     </Application.Resources>

@@ -31,28 +31,28 @@
                 <TextBlock x:Name="tbBalance" Text="0"/>
             </StackPanel>
             <TextBlock Style="{StaticResource title}" Text="Pages"/>
+            <ListViewItem x:Name="lviHome" HorizontalContentAlignment="Left" PreviewMouseDown="lviHome_PreviewMouseDown">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Casino"/>
+                    <TextBlock Text="Home Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ListViewItem>
             <ListViewItem x:Name="lviBettingPage" HorizontalContentAlignment="Left" PreviewMouseDown="lviBettingPage_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Casino"/>
-                    <TextBlock x:Name="tbBettingPage" Text="Betting" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Betting" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
             <ListViewItem x:Name="lbiMyBets" HorizontalContentAlignment="Left" PreviewMouseDown="lviMyBets_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Diamond"/>
-                    <TextBlock x:Name="tbMyBetsPage" Text="My Bets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="My Bets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
             <ListViewItem x:Name="lviOrganize" HorizontalContentAlignment="Left" PreviewMouseDown="lviOrganize_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Event"/>
-                    <TextBlock x:Name="tbOrganizerPage" Text="Organizer Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </ListViewItem>
-            <ListViewItem x:Name="lviOrganizationControl" HorizontalContentAlignment="Left" PreviewMouseDown="lviOrganizationControl_PreviewMouseDown">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="People"/>
-                    <TextBlock x:Name="tbOrganizationControl" Text="Management" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Organizer Panel" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ListViewItem>
             <ListViewItem x:Name="lviAdminPanelBtn" HorizontalContentAlignment="Left" PreviewMouseDown="lviAdminPanelBtn_PreviewMouseDown">

@@ -57,7 +57,7 @@ namespace Tippmixx
 
         }
 
-        private void lviOrganizationControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void lviHome_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
 
         }
