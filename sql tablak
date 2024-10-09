@@ -55,6 +55,51 @@ CREATE TABLE OrgAssociates (
     FOREIGN KEY (BelongsToOrgID) REFERENCES Organizations(OrgID)
 )
 
+-- Insert permission levels into PermSettings
+INSERT INTO PermSettings (DisplayName, PermissibilityLevel)
+VALUES
+  ('Organizer', 1),
+  ('Organization Manager', 2),
+  ('Organization Owner', 3),
+  ('Moderator', 4),
+  ('Superuser', 5);
+
+DELIMITER //
+
+CREATE TRIGGER AddDefaultPerms
+AFTER INSERT ON Bettors
+FOR EACH ROW
+BEGIN
+    DECLARE perm_id INT;
+    DECLARE done INT DEFAULT 0;
+    
+    -- Declare a cursor to loop through the PermSettings table
+    DECLARE cur CURSOR FOR 
+    SELECT PermID FROM PermSettings;
+
+    -- Declare a handler to exit the loop when there are no more rows
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN cur;
+
+    read_loop: LOOP
+        FETCH cur INTO perm_id;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        -- Insert each permission for the new BettorID
+        INSERT INTO Perms (BettorID, PermID)
+        VALUES (NEW.BettorsID, perm_id);
+
+    END LOOP;
+
+    CLOSE cur;
+END;
+
+//
+DELIMITER ;
+
 -- Insert test data into Bettors
 INSERT INTO Bettors (Username, Balance, Email, Password, JoinDate, IsActive)
 VALUES 
@@ -86,12 +131,3 @@ VALUES
 ('2023-12-16', 2.1, 150, 3, 1, 0),
 ('2024-02-09', 3.2, 200, 4, 4, 0),
 ('2024-07-13', 2.7, 180, 5, 2, 1);
-
--- Insert permission levels into PermSettings
-INSERT INTO PermSettings (DisplayName, PermissibilityLevel)
-VALUES
-  ('Organizer', 1),
-  ('Organization Manager', 2),
-  ('Organization Owner', 3),
-  ('Moderator', 4),
-  ('Superuser', 5);
