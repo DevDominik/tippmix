@@ -14,8 +14,8 @@
             <RowDefinition Height="50px"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="splMenuPoints" Orientation="Horizontal">
-            <ListViewItem Style="{StaticResource menupointLvi_Selected}" PreviewMouseDown="lviMenuPointSwitch_PreviewMouseDown">
+        <StackPanel Margin="10 2" x:Name="splMenuPoints" Orientation="Horizontal">
+            <ListViewItem Style="{StaticResource menupointLvi}" PreviewMouseDown="lviMenuPointSwitch_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Height="21" Width="21" Kind="People"/>
                     <TextBlock Text="User Control"/>
@@ -33,7 +33,7 @@
                 <RowDefinition Height="40"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <StackPanel Margin="5 2" Orientation="Horizontal" VerticalAlignment="Center">
+            <StackPanel Margin="10 2" Orientation="Horizontal" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Margin="5" Kind="Magnify"/>
                     <TextBox x:Name="tbSearchBar" Width="200" TextChanged="tbSearchBar_TextChanged"/>
