@@ -65,5 +65,15 @@ namespace Tippmixx
         {
 
         }
+
+        private void dtgFelhasznalok_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void tbSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            dtgFelhasznalok.ItemsSource = User.RefreshUserList(tbSearchBar.Text);
+        }
     }
 }

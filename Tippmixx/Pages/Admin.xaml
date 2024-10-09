@@ -36,7 +36,7 @@
             <StackPanel Margin="5 2" Orientation="Horizontal" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Margin="5" Kind="Magnify"/>
-                    <TextBox x:Name="tbSearchBar" Width="200"/>
+                    <TextBox x:Name="tbSearchBar" Width="200" TextChanged="tbSearchBar_TextChanged"/>
                 </StackPanel>
                 <ListViewItem>
                     <StackPanel Orientation="Horizontal">
@@ -45,7 +45,7 @@
                     </StackPanel>
                 </ListViewItem>
             </StackPanel>
-            <DataGrid Margin="10px" x:Name="dtgFelhasznalok" Grid.Row="1" CanUserResizeRows="False" CanUserAddRows="False" CanUserResizeColumns="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="False">
+            <DataGrid Margin="10px" x:Name="dtgFelhasznalok" Grid.Row="1" CanUserResizeRows="False" CanUserAddRows="False" CanUserResizeColumns="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="False" SelectionChanged="dtgFelhasznalok_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>

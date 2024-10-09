@@ -1,4 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using Google.Protobuf.WellKnownTypes;
+using MaterialDesignThemes.Wpf;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -24,25 +25,44 @@ namespace Tippmixx
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static ObservableCollection<User> RefreshUserList()
+        public static ObservableCollection<User> RefreshUserList(string id = "-1")
         {
             ObservableCollection<User> UsersList = new();
             UsersList.Clear();
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
-                string query = @"
-                SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
-                FROM Bettors 
-                ";
 
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                if (id != "-1")
                 {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    string query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID = {id}";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        while (reader.Read())
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            UsersList.Add(new User(Convert.ToInt32(reader["BettorsID"]),reader["Username"].ToString(), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), DateTime.Parse(reader["JoinDate"].ToString()), (bool)reader["IsActive"]));
+                            while (reader.Read())
+                            {
+                                UsersList.Add(new User(Convert.ToInt32(reader["BettorsID"]), reader["Username"].ToString(), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), DateTime.Parse(reader["JoinDate"].ToString()), (bool)reader["IsActive"]));
+                            }
+                        }
+                    }
+                }
+                else if (id == string.Empty)
+                {
+                    string query = @"
+                    SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
+                    FROM Bettors 
+                    ";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                UsersList.Add(new User(Convert.ToInt32(reader["BettorsID"]), reader["Username"].ToString(), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), DateTime.Parse(reader["JoinDate"].ToString()), (bool)reader["IsActive"]));
+                            }
                         }
                     }
                 }

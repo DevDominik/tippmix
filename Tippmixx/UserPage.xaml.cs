@@ -61,5 +61,10 @@ namespace Tippmixx
         {
 
         }
+
+        private void spPages_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+
+        }
     }
 }
