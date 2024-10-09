@@ -25,7 +25,7 @@ namespace Tippmixx
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static ObservableCollection<User> RefreshUserList(string id = "-1")
+        public static ObservableCollection<User> RefreshUserList(string input = "-1")
         {
             ObservableCollection<User> UsersList = new();
             UsersList.Clear();
@@ -36,18 +36,25 @@ namespace Tippmixx
 
                 string query;
 
-                // Check if the id is -1, invalid, or empty
-                if (id == "-1" || string.IsNullOrWhiteSpace(id) || !int.TryParse(id, out int parsedId))
+                if (string.IsNullOrWhiteSpace(input))
                 {
-                    // If id is -1 or invalid/empty input, return all users
                     query = @"
-            SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
-            FROM Bettors";
+    SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
+    FROM Bettors";
+                }
+                else if (int.TryParse(input, out int parsedId))
+                {
+                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID LIKE '{parsedId}%'";
+                }
+                else if (input.Any(char.IsLetter))
+                {
+                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE Username LIKE '%{input}%'";
                 }
                 else
                 {
-                    // Valid ID, fetch the specific user
-                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID LIKE '{parsedId}%'";
+                    query = @"
+    SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
+    FROM Bettors";
                 }
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -70,6 +77,7 @@ namespace Tippmixx
             }
             return UsersList;
         }
+
 
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
