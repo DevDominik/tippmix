@@ -1,5 +1,6 @@
 CREATE DATABASE tippmix DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
 ----[!] ONLY APPLY THE COMMANDS BELOW AFTER THE DATABASE HAS BEEN CREATED AND CURRENTLY SELECTED [!]----
+----[BREAK IT INTO PARTS] FIRST PART, BEGIN----
 CREATE TABLE Bettors (
   BettorsID INT AUTO_INCREMENT PRIMARY KEY,  
   Username VARCHAR(50) NOT NULL,
@@ -56,7 +57,9 @@ CREATE TABLE OrgAssociates (
     BelongsToOrgID INT NOT NULL,
     FOREIGN KEY (BelongsToOrgID) REFERENCES Organizations(OrgID)
 )
+----FIRST PART, END----
 
+----SECOND PART, BEGIN----
 -- Insert permission levels into PermSettings
 INSERT INTO PermSettings (DisplayName, PermissibilityLevel)
 VALUES
@@ -133,3 +136,4 @@ VALUES
 ('2023-12-16', 2.1, 150, 3, 1, 0),
 ('2024-02-09', 3.2, 200, 4, 4, 0),
 ('2024-07-13', 2.7, 180, 5, 2, 1);
+----SECOND PART, END----
