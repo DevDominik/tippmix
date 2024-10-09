@@ -38,8 +38,8 @@ namespace Tippmixx
         {
             FrameworkElement baseElement = sender as FrameworkElement;
             User user = baseElement.DataContext as User;
-            string formattedString = user.IsActive ? "deactivate" : "reactivate";
-            if (MessageBox.Show($"Are you sure you want to {formattedString} user {user.Username}?", "Admin Panel", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            
+            if (MessageBox.Show($"Are you sure you want to {user.AllowAccessAsString.ToLower()} user {user.Username}?", "Admin Panel", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 user.IsActive = !user.IsActive;
             }

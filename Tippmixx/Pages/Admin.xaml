@@ -11,7 +11,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="45px"/>
+            <RowDefinition Height="50px"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="splMenuPoints" Orientation="Horizontal">
@@ -28,89 +28,107 @@
                 </StackPanel>
             </ListViewItem>
         </StackPanel>
-        <DataGrid Margin="10px" x:Name="dtgFelhasznalok" Grid.Row="1" CanUserResizeRows="False" CanUserAddRows="False" CanUserResizeColumns="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="False">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="IdCard"/>
-                                <TextBlock Text="ID"></TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock TextAlignment="Center" Text="{Binding Id}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Person"/>
-                                <TextBlock Text="Username"></TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="{Binding UserStatusAsIcon}"/>
-                                <TextBlock Text="{Binding Username}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="LightningBolt"/>
-                                <TextBlock Text="Power Actions"></TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <ListViewItem x:Name="lviPwAct_Details" PreviewMouseDown="lviPwAct_Details_PreviewMouseDown">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="Clipboard"/>
-                                        <TextBlock Text="Details"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem x:Name="lviPwAct_ToggleActive" PreviewMouseDown="lviPwAct_ToggleActive_PreviewMouseDown">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="Gavel"/>
-                                        <TextBlock Text="Toggle Access"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem x:Name="lviPwAct_CashReset" PreviewMouseDown="lviPwAct_CashReset_PreviewMouseDown">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="Refresh"/>
-                                        <TextBlock Text="Reset Cash"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem x:Name="lviPwAct_PasswordReset" PreviewMouseDown="lviPwAct_PasswordReset_PreviewMouseDown">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="LockReset"/>
-                                        <TextBlock Text="Reset Password"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                                <ListViewItem x:Name="lviPwAct_EmailReset" PreviewMouseDown="lviPwAct_EmailReset_PreviewMouseDown">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="EmailRemove"/>
-                                        <TextBlock Text="Reset Email"/>
-                                    </StackPanel>
-                                </ListViewItem>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        
+        <Grid x:Name="grdUserListing" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="5 2" Orientation="Horizontal" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Margin="5" Kind="Magnify"/>
+                    <TextBox x:Name="tbSearchBar" Width="200"/>
+                </StackPanel>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon x:Name="mdpi_SearchMode" Kind="IdCard"/>
+                        <TextBlock x:Name="tbSearchModeSwitch" Text="ID"/>
+                    </StackPanel>
+                </ListViewItem>
+            </StackPanel>
+            <DataGrid Margin="10px" x:Name="dtgFelhasznalok" Grid.Row="1" CanUserResizeRows="False" CanUserAddRows="False" CanUserResizeColumns="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="IdCard"/>
+                                    <TextBlock Text="ID"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="16 0" Text="{Binding Id}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Person"/>
+                                    <TextBlock Text="Username"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="16 0" Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="{Binding UserStatusAsIcon}"/>
+                                    <TextBlock Text="{Binding Username}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="LightningBolt"/>
+                                    <TextBlock Text="Power Actions"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <ListViewItem x:Name="lviPwAct_Details" PreviewMouseDown="lviPwAct_Details_PreviewMouseDown">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="Clipboard"/>
+                                            <TextBlock Text="Details"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="lviPwAct_ToggleActive" PreviewMouseDown="lviPwAct_ToggleActive_PreviewMouseDown">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="{Binding AllowAccessAsIcon}"/>
+                                            <TextBlock Text="{Binding AllowAccessAsString}"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="lviPwAct_CashReset" PreviewMouseDown="lviPwAct_CashReset_PreviewMouseDown">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="Refresh"/>
+                                            <TextBlock Text="Reset Cash"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="lviPwAct_PasswordReset" PreviewMouseDown="lviPwAct_PasswordReset_PreviewMouseDown">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="LockReset"/>
+                                            <TextBlock Text="Reset Password"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                    <ListViewItem x:Name="lviPwAct_EmailReset" PreviewMouseDown="lviPwAct_EmailReset_PreviewMouseDown">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="EmailRemove"/>
+                                            <TextBlock Text="Reset Email"/>
+                                        </StackPanel>
+                                    </ListViewItem>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Grid>
     </Grid>
 </Page>

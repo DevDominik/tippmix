@@ -79,7 +79,13 @@ namespace Tippmixx
             this.email = email;
             this.joindate = joindate;
             this.isActive = isActive;
+            UpdateAccessStatus();
+        }
+        void UpdateAccessStatus()
+        {
             UserStatusAsIcon = isActive ? PackIconKind.AccountCheck : PackIconKind.AccountCancel;
+            AllowAccessAsIcon = !isActive ? PackIconKind.Tick : PackIconKind.Ban;
+            AllowAccessAsString = !isActive ? "Reactivate" : "Deactivate";
         }
 
         public int Id { get { return id; } set { id = value; OnPropertyChanged(); } }
@@ -88,7 +94,9 @@ namespace Tippmixx
         public string Email { get { return email; } set { email = value; OnPropertyChanged(); } }
                 
         public DateTime JoinDate { get { return joindate; } set { joindate = value; OnPropertyChanged(); } }
-        public bool IsActive { get { return isActive; } set { isActive = value; OnPropertyChanged(); UserStatusAsIcon = isActive ? PackIconKind.AccountCheck : PackIconKind.AccountCancel; } }
+        public bool IsActive { get { return isActive; } set { isActive = value; OnPropertyChanged(); UpdateAccessStatus(); } }
         public PackIconKind UserStatusAsIcon { get; private set; }
+        public PackIconKind AllowAccessAsIcon {  get; private set; }
+        public string AllowAccessAsString { get; private set; }
     }
 }
