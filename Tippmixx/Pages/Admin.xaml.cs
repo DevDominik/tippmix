@@ -47,8 +47,8 @@ namespace Tippmixx
             }
             else
             {
-                tbDetailsRolesTitleDisplay.Visibility = Visibility.Collapsed;
-                dtgDetailsRoles.Visibility = Visibility.Collapsed;
+                tbDetailsRolesTitleDisplay.Visibility = Visibility.Visible;
+                dtgDetailsRoles.Visibility = Visibility.Visible;
             }
             canPushChangesToDb = true;
         }

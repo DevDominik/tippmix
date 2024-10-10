@@ -49,7 +49,7 @@ namespace Tippmixx
                         if (reader.Read())
                         {
                             User session = new User(Convert.ToInt32(reader["BettorsID"]), reader["Username"].ToString(), EasyEncryption.SHA.ComputeSHA256Hash(password), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), Convert.ToDateTime(reader["JoinDate"]), Convert.ToBoolean(reader["IsActive"]));
-                            session.Permissions = Permission.GetUserPermissions(session.Id);
+                            session.Permissions = Permission.GetUserPermissions(Convert.ToInt32(reader["BettorsID"]));
                             User.Session = session;
                             return true;
                         }

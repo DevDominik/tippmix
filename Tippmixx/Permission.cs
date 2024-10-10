@@ -52,27 +52,18 @@ namespace Tippmixx
     {
         public static bool HasPermissibilityLevel(User user, int level)
         {
-            foreach (Permission permission in user.Permissions)
-            {
-                
-                if (permission.IsActive && permission.Role.PermissibilityLevel == level)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return user.Permissions.Any(x => x.Role.PermissibilityLevel == level && x.IsActive);
         }
-        public static ObservableCollection<Permission> GetUserPermissions(int id) 
+        public static ObservableCollection<Permission> GetUserPermissions(int id)
         {
             ObservableCollection<Permission> permissions = new ObservableCollection<Permission>();
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
-
                 string query = @$"
-                SELECT ID, PermID, IsActive 
-                FROM Perms 
-                WHERE BettorID = {id}";
+        SELECT ID, PermID, IsActive 
+        FROM Perms 
+        WHERE BettorID = {id}";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -81,6 +72,7 @@ namespace Tippmixx
                         while (reader.Read())
                         {
                             Role role = Tippmixx.Role.All.FirstOrDefault(x => x.PermID == Convert.ToInt32(reader["PermID"]));
+
                             if (role != null)
                             {
                                 Permission permission = new Permission(
@@ -90,6 +82,11 @@ namespace Tippmixx
                                     role
                                 );
                                 permissions.Add(permission);
+                                MessageBox.Show($"Permission added: {permission.Role.PermID}, IsActive: {permission.IsActive}");
+                            }
+                            else
+                            {
+                                MessageBox.Show($"No matching role found for PermID: {reader["PermID"]}");
                             }
                         }
                     }
@@ -97,8 +94,10 @@ namespace Tippmixx
             }
             return permissions;
         }
+
         void OnPropertyChanged([CallerMemberName] string name = null) 
         {
+
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
