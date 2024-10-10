@@ -21,6 +21,8 @@ namespace Tippmixx
 
         private string connectionString = "Server=localhost;Database=tippmix;User ID=root;Password=;"; // MySQL connection string
 
+        public Betting() : this(null) { }
+
         public Betting(UserPage userPage)
         {
             InitializeComponent();
