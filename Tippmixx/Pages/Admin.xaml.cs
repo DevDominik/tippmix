@@ -40,7 +40,7 @@ namespace Tippmixx
             tbUsername.Text = selectedUser.Username;
             tbDetailsUsername.Text = selectedUser.Username;
             tbDetailsCash.Text = selectedUser.Balance.ToString();
-            if (!Permission.HasPermissibilityLevel(, 5))
+            if (!Permission.HasPermissibilityLevel(User.Session, 5))
             {
                 tbDetailsRolesTitleDisplay.Visibility = Visibility.Collapsed;
                 dtgDetailsRoles.Visibility = Visibility.Collapsed;

@@ -15,6 +15,7 @@ namespace Tippmixx
 {
     public class User : INotifyPropertyChanged
     {
+        public static User Session { get; set; }
         int id;
         string username;
         string password;
@@ -39,21 +40,21 @@ namespace Tippmixx
                 if (string.IsNullOrWhiteSpace(input))
                 {
                     query = @"
-    SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
+    SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive 
     FROM Bettors";
                 }
                 else if (int.TryParse(input, out int parsedId))
                 {
-                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID LIKE '{parsedId}%'";
+                    query = $"SELECT BettorsID, Username, Password, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID LIKE '{parsedId}%'";
                 }
                 else if (input.Any(char.IsLetter))
                 {
-                    query = $"SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive FROM Bettors WHERE Username LIKE '{input}%'";
+                    query = $"SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive FROM Bettors WHERE Username LIKE '{input}%'";
                 }
                 else
                 {
                     query = @"
-    SELECT BettorsID, Username, Email, JoinDate, Balance, IsActive 
+    SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive 
     FROM Bettors";
                 }
 
@@ -66,6 +67,7 @@ namespace Tippmixx
                             UsersList.Add(new User(
                                 Convert.ToInt32(reader["BettorsID"]),
                                 reader["Username"].ToString(),
+                                reader["Password"].ToString(),
                                 Convert.ToInt32(reader["Balance"]),
                                 reader["Email"].ToString(),
                                 DateTime.Parse(reader["JoinDate"].ToString()),
@@ -104,7 +106,7 @@ namespace Tippmixx
 
         }
 
-        public User(int id, string username, int balance, string email, DateTime joindate, bool isActive)
+        public User(int id, string username, string password, int balance, string email, DateTime joindate, bool isActive)
         {
             this.id = id;
             this.username = username;
@@ -112,6 +114,7 @@ namespace Tippmixx
             this.email = email;
             this.joindate = joindate;
             this.isActive = isActive;
+            this.password = password;
             UpdateAccessStatus();
         }
         void UpdateAccessStatus()
@@ -125,7 +128,7 @@ namespace Tippmixx
         public string Username { get { return username; } set { username = value; OnPropertyChanged(); } }
         public int Balance { get { return balance; } set {  balance = value; OnPropertyChanged(); } }
         public string Email { get { return email; } set { email = value; OnPropertyChanged(); } }
-                
+        public string Password { get { return password; } set { password = value; OnPropertyChanged(); } }
         public DateTime JoinDate { get { return joindate; } set { joindate = value; OnPropertyChanged(); } }
         public bool IsActive { get { return isActive; } set { isActive = value; OnPropertyChanged(); UpdateAccessStatus(); } }
         public PackIconKind UserStatusAsIcon { get; private set; }

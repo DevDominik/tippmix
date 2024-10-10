@@ -54,7 +54,8 @@ namespace Tippmixx
         {
             foreach (Permission permission in user.Permissions)
             {
-                if (permission.isActive && permission.Role.PermissibilityLevel == level)
+                
+                if (permission.IsActive && permission.Role.PermissibilityLevel == level)
                 {
                     return true;
                 }

@@ -24,8 +24,8 @@ namespace Tippmixx
             };
 
             Role.BuildRoles();
-            tbUsername.Text = Session.Username;
-            tbBalance.Text = Session.Balance.ToString("C"); // Display balance as currency
+            tbUsername.Text = User.Session.Username;
+            tbBalance.Text = User.Session.Balance.ToString("C"); // Display balance as currency
         }
 
         private void lviBettingPage_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -80,7 +80,7 @@ namespace Tippmixx
         // Call this method to update the user's balance displayed on the UI
         public void UpdateBalance(decimal newBalance)
         {
-            Session.Balance = (int)newBalance; // Update the balance in the session
+            User.Session.Balance = (int)newBalance; // Update the balance in the session
             tbBalance.Text = newBalance.ToString("C"); // Update the balance display
         }
     }

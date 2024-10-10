@@ -35,7 +35,7 @@ namespace Tippmixx
             {
                 conn.Open();
                 string query = @"
-                SELECT Username, Email, Balance, IsActive, BettorsID 
+                SELECT Username, Email, Balance, IsActive, BettorsID, JoinDate 
                 FROM Bettors 
                 WHERE Username = @username AND Password = @password";
 
@@ -48,13 +48,9 @@ namespace Tippmixx
                     {
                         if (reader.Read())
                         {
-                            Session.Username = reader["Username"].ToString();
-                            Session.Password = EasyEncryption.SHA.ComputeSHA256Hash(password);
-                            Session.Email = reader["Email"].ToString();
-                            Session.Balance = Convert.ToInt32(reader["Balance"]);
-                            Session.IsActive = Convert.ToBoolean(reader["IsActive"]);
-                            Session.ID = Convert.ToInt32(reader["BettorsID"]);
-                            Session.Permissions = Permission.GetUserPermissions(Session.ID);
+                            User session = new User(Convert.ToInt32(reader["BettorsID"]), reader["Username"].ToString(), EasyEncryption.SHA.ComputeSHA256Hash(password), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), Convert.ToDateTime(reader["JoinDate"]), Convert.ToBoolean(reader["IsActive"]));
+                            session.Permissions = Permission.GetUserPermissions(session.Id);
+                            User.Session = session;
                             return true;
                         }
                         else
@@ -128,7 +124,7 @@ namespace Tippmixx
 
                 if (AuthenticateUser(username, password))
                 {
-                    if (!Session.IsActive)
+                    if (!User.Session.IsActive)
                     {
                         MessageBox.Show("Your account has been deactivated. You may not sign in with this account until a staff member reactivates your account.", "Auth", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         return;

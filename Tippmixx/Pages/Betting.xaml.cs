@@ -29,7 +29,7 @@ namespace Tippmixx
 
             // Initialize random generator and fetch bettor ID
             _random = new Random();
-            _bettorId = Session.ID; // Assuming bettor ID is stored in Session class
+            _bettorId = User.Session.Id; // Assuming bettor ID is stored in Session class
 
             // Fetch bettor's balance from the database
             _balance = GetBettorBalance(_bettorId);
