@@ -49,6 +49,17 @@ namespace Tippmixx
     }
     public class Permission : INotifyPropertyChanged
     {
+        public static bool HasPermissibilityLevel(User user, int level)
+        {
+            foreach (Permission permission in user.Permissions)
+            {
+                if (permission.Role.PermissibilityLevel == level)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public static ObservableCollection<Permission> GetUserPermissions(int id) 
         { 
             ObservableCollection<Permission> permissions = new ObservableCollection<Permission>();

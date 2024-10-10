@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace Tippmixx
 {
-    internal class User : INotifyPropertyChanged
+    public class User : INotifyPropertyChanged
     {
         int id;
         string username;
@@ -83,7 +83,7 @@ namespace Tippmixx
             return UsersList;
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        private void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))

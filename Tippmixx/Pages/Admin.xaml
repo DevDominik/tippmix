@@ -28,14 +28,14 @@
                 </StackPanel>
             </ListViewItem>
         </StackPanel>
-        <Grid x:Name="grdUserDetails" Visibility="Visible" Background="White" Grid.Row="1">
+        <Grid x:Name="grdUserDetails" Visibility="Collapsed" Background="White" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <ListViewItem x:Name="lviReturnFromDetails">
+                <ListViewItem x:Name="lviReturnFromDetails" PreviewMouseDown="lviReturnFromDetails_PreviewMouseDown">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="ArrowLeft"/>
                         <TextBlock Text="Return to User List"></TextBlock>
@@ -48,7 +48,7 @@
                         <materialDesign:PackIcon Height="30" Width="30" x:Name="mdpi_UserCreds" Kind="Person"/>
                         <TextBlock VerticalAlignment="Center" FontSize="15" x:Name="tbUsername" Text="Username"/>
                     </StackPanel>
-                    <StackPanel Margin="10 2" Width="500" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <StackPanel Margin="10 2" Width="510" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <ListViewItem x:Name="lviPwAct_ToggleActive" PreviewMouseDown="lviPwAct_ToggleActive_PreviewMouseDown">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="Ban"/>
@@ -58,7 +58,7 @@
                         <ListViewItem x:Name="lviPwAct_CashReset" PreviewMouseDown="lviPwAct_CashReset_PreviewMouseDown">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon Kind="Refresh"/>
-                                <TextBlock Text="Reset Cash"/>
+                                <TextBlock Text="Reset Balance"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem x:Name="lviPwAct_PasswordReset" PreviewMouseDown="lviPwAct_PasswordReset_PreviewMouseDown">
@@ -92,7 +92,7 @@
                         <materialDesign:PackIcon Kind="Dollar"/>
                         <TextBox x:Name="tbDetailsCash" Text="Cash"/>
                     </StackPanel>
-                    <TextBlock Style="{StaticResource title}" x:Name="tbDetailsRolesDisplayTitle" Text="Roles"/>
+                    <TextBlock Style="{StaticResource title}" Text="Roles"/>
                     <DataGrid x:Name="dtgDetailsRoles" Margin="10 0" CanUserResizeRows="False" CanUserAddRows="False" CanUserResizeColumns="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="False" SelectionChanged="dtgFelhasznalok_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="200" Binding="{Binding DisplayName}" Header="Role Name"/>
@@ -102,7 +102,7 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <Grid x:Name="grdUserListing" Visibility="Collapsed" Grid.Row="1">
+        <Grid x:Name="grdUserListing" Visibility="Visible" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition/>
@@ -173,7 +173,7 @@
                                     <ListViewItem x:Name="lviPwAct_CashReset" PreviewMouseDown="lviPwAct_CashReset_PreviewMouseDown">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                                             <materialDesign:PackIcon Kind="Refresh"/>
-                                            <TextBlock Text="Reset Cash"/>
+                                            <TextBlock Text="Reset Balance"/>
                                         </StackPanel>
                                     </ListViewItem>
                                     <ListViewItem x:Name="lviPwAct_PasswordReset" PreviewMouseDown="lviPwAct_PasswordReset_PreviewMouseDown">

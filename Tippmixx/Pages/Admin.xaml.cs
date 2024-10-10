@@ -23,6 +23,7 @@ namespace Tippmixx
     public partial class Admin : Page
     {
         static User? selectedUser = null;
+        static bool canPushChangesToDb = false;
         public Admin()
         {
             InitializeComponent();
@@ -31,7 +32,19 @@ namespace Tippmixx
 
         private void lviPwAct_Details_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            canPushChangesToDb = false;
+            FrameworkElement baseElement = sender as FrameworkElement;
+            selectedUser = baseElement.DataContext as User;
+            grdUserListing.Visibility = Visibility.Collapsed;
+            grdUserDetails.Visibility = Visibility.Visible;
+            tbUsername.Text = selectedUser.Username;
+            tbDetailsUsername.Text = selectedUser.Username;
+            tbDetailsCash.Text = selectedUser.Balance.ToString();
+            if (!Permission.HasPermissibilityLevel(selectedUser, 5))
+            {
+                dtgDetailsRoles.Visibility = Visibility.Collapsed;
+            }
+            canPushChangesToDb = true;
         }
 
         private void lviPwAct_ToggleActive_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -47,12 +60,48 @@ namespace Tippmixx
 
         private void lviPwAct_CashReset_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            if (selectedUser == null)
+            {
+                FrameworkElement baseElement = sender as FrameworkElement;
+                User user = baseElement.DataContext as User;
+                if (MessageBox.Show($"Are you sure you want to reset the balance of user {user.Username}?", "Admin Panel", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    user.Balance = 0;
+                }
+            }
+            else
+            {
+                if (MessageBox.Show($"Are you sure you want to reset the balance of user {selectedUser.Username}?", "Admin Panel", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    canPushChangesToDb = false;
+                    selectedUser.Balance = 0;
+                    tbDetailsCash.Text = "0";
+                    canPushChangesToDb = true;
+                }
+            }
         }
 
         private void lviPwAct_PasswordReset_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            if (selectedUser == null)
+            {
+                FrameworkElement baseElement = sender as FrameworkElement;
+                User user = baseElement.DataContext as User;
+                if (MessageBox.Show($"Are you sure you want to reset the balance of user {user.Username}?", "Admin Panel", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    user.Balance = 0;
+                }
+            }
+            else
+            {
+                if (MessageBox.Show($"Are you sure you want to reset the balance of user {selectedUser.Username}?", "Admin Panel", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    canPushChangesToDb = false;
+                    selectedUser.Balance = 0;
+                    tbDetailsCash.Text = "0";
+                    canPushChangesToDb = true;
+                }
+            }
         }
 
         private void lviPwAct_EmailReset_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -73,6 +122,11 @@ namespace Tippmixx
         private void tbSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             dtgFelhasznalok.ItemsSource = User.RefreshUserList(tbSearchBar.Text);
+        }
+
+        private void lviReturnFromDetails_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }
