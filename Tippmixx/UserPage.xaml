@@ -23,7 +23,7 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
             <TextBlock Style="{StaticResource title}" Text="Statistics"/>
             <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
-                <materialDesign:PackIcon x:Name="mdpi_UserCreds" Kind="Person"/>
+                <materialDesign:PackIcon x:Name="mdpi_UserCreds" Kind="PersonTie"/>
                 <TextBlock x:Name="tbUsername" Text="Username"/>
             </StackPanel>
             <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">

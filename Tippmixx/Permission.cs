@@ -33,7 +33,7 @@ namespace Tippmixx
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
-
+                
                 string query = @"
                 SELECT PermID, DisplayName, PermissibilityLevel, RoleIconName 
                 FROM PermSettings";
@@ -53,6 +53,14 @@ namespace Tippmixx
     }
     public class Permission : INotifyPropertyChanged
     {
+        public static Permission? HighestPermission(User user)
+        {
+            return user.Permissions
+                .Where(p => p.IsActive)
+                .OrderByDescending(p => p.Role.PermissibilityLevel)
+                .FirstOrDefault();
+        }
+
         public static bool HasPermissibilityLevel(User user, int level)
         {
             return user.Permissions.Any(x => x.Role.PermissibilityLevel == level && x.IsActive);
