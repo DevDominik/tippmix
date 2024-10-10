@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MaterialDesignThemes.Wpf;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,16 +14,18 @@ using System.Xml.Linq;
 namespace Tippmixx
 {
     public class Role
-    {
+    { 
         public static List<Role> All = new List<Role>();
-        public int PermID { get; }
-        public string DisplayName { get; }
-        public int PermissibilityLevel { get; }
-        public Role(int permId, string displayName, int permissibilityLevel) 
+        public int PermID { get; private set; }
+        public string DisplayName { get; private set; }
+        public int PermissibilityLevel { get; private set; }
+        public PackIconKind RoleIcon { get; private set; }
+        public Role(int permId, string displayName, int permissibilityLevel, string roleIcon)
         {
             PermID = permId;
             DisplayName = displayName;
             PermissibilityLevel = permissibilityLevel;
+            RoleIcon = Misc.GetPackIconKindFromString(roleIcon);
             All.Add(this);
         }
         public static void BuildRoles() 
@@ -32,7 +35,7 @@ namespace Tippmixx
                 conn.Open();
 
                 string query = @"
-                SELECT PermID, DisplayName, PermissibilityLevel 
+                SELECT PermID, DisplayName, PermissibilityLevel, RoleIconName 
                 FROM PermSettings";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -41,7 +44,7 @@ namespace Tippmixx
                     {
                         while (reader.Read())
                         {
-                            new Role(Convert.ToInt32(reader["PermID"]), reader["DisplayName"].ToString(), Convert.ToInt32(reader["PermissibilityLevel"]));
+                            new Role(Convert.ToInt32(reader["PermID"]), reader["DisplayName"].ToString(), Convert.ToInt32(reader["PermissibilityLevel"]), reader["RoleIconName"].ToString());
                         }
                     }
                 }
