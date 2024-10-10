@@ -35,7 +35,7 @@ namespace Tippmixx
             }
         }
 
-        public static ObservableCollection<Event> RefreshEventList(string input = "-1")
+        public static ObservableCollection<Event> RefreshEventList(string input = null)
         {
             ObservableCollection<Event> eventList = new();
             eventList.Clear();
