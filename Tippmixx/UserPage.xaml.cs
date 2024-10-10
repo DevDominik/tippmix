@@ -18,15 +18,16 @@ namespace Tippmixx
             InitializeComponent();
             PageDefinitions = new Dictionary<string, Uri>()
             {
-                ["Betting"] = new Uri("Pages/Betting.xaml", UriKind.RelativeOrAbsolute),
                 ["Organizer"] = new Uri("Pages/Organizer.xaml", UriKind.RelativeOrAbsolute),
-                ["Admin"] = new Uri("Pages/Admin.xaml", UriKind.RelativeOrAbsolute)
+                ["Betting"] = new Uri("Pages/Betting.xaml", UriKind.RelativeOrAbsolute),
+                ["Admin"] = new Uri("Pages/Admin.xaml", UriKind.RelativeOrAbsolute),
+                ["MyBets"] = new Uri("Pages/MyBets.xaml", UriKind.RelativeOrAbsolute)
             };
 
             Role.BuildRoles();
             User.Session.Permissions = Permission.GetUserPermissions(User.Session.Id);
             tbUsername.Text = User.Session.Username;
-            tbBalance.Text = User.Session.Balance.ToString("C"); // Display balance as currency
+            tbBalance.Text = User.Session.Balance.ToString("C");
         }
 
         private void lviBettingPage_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -36,7 +37,8 @@ namespace Tippmixx
 
         private void lviMyBets_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // Implement My Bets navigation here if needed
+            spPages.Source = PageDefinitions["MyBets"];
+
         }
 
         private void lviOrganize_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -51,17 +53,17 @@ namespace Tippmixx
 
         private void lviSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // Implement Settings navigation here if needed
+            
         }
 
         private void lviLogout_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // Implement Logout logic here
+            
         }
 
         private void lviHome_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // Implement Home navigation here if needed
+           
         }
 
         private void spPages_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
@@ -78,11 +80,11 @@ namespace Tippmixx
             }
         }
 
-        // Call this method to update the user's balance displayed on the UI
+        
         public void UpdateBalance(decimal newBalance)
         {
-            User.Session.Balance = (int)newBalance; // Update the balance in the session
-            tbBalance.Text = newBalance.ToString("C"); // Update the balance display
+            User.Session.Balance = (int)newBalance; 
+            tbBalance.Text = newBalance.ToString("C"); 
         }
     }
 }
