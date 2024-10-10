@@ -82,11 +82,6 @@ namespace Tippmixx
                                     role
                                 );
                                 permissions.Add(permission);
-                                MessageBox.Show($"Permission added: {permission.Role.PermID}, IsActive: {permission.IsActive}");
-                            }
-                            else
-                            {
-                                MessageBox.Show($"No matching role found for PermID: {reader["PermID"]}");
                             }
                         }
                     }
@@ -131,5 +126,6 @@ namespace Tippmixx
         public bool IsActive { get { return isActive; } set { isActive = value; OnPropertyChanged(); } }
         public int BettorID { get { return bettorID; } }
         public Role Role { get { return role; } }
+        
     }
 }

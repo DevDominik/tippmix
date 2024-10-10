@@ -95,7 +95,7 @@
                     <TextBlock Style="{StaticResource title}" x:Name="tbDetailsRolesTitleDisplay" Text="Roles"/>
                     <DataGrid x:Name="dtgDetailsRoles" Margin="10 0" CanUserResizeRows="False" CanUserAddRows="False" CanUserResizeColumns="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="False" SelectionChanged="dtgFelhasznalok_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="200" Binding="{Binding DisplayName}" Header="Role Name"/>
+                            <DataGridTextColumn Width="200" Binding="{Binding Role.DisplayName}" Header="Role Name"/>
                             <DataGridCheckBoxColumn Binding="{Binding IsActive}" Header="Enabled"/>
                         </DataGrid.Columns>
                     </DataGrid>

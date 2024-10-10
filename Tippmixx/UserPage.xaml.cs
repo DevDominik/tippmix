@@ -24,6 +24,7 @@ namespace Tippmixx
             };
 
             Role.BuildRoles();
+            User.Session.Permissions = Permission.GetUserPermissions(User.Session.Id);
             tbUsername.Text = User.Session.Username;
             tbBalance.Text = User.Session.Balance.ToString("C"); // Display balance as currency
         }

@@ -44,11 +44,13 @@ namespace Tippmixx
             {
                 tbDetailsRolesTitleDisplay.Visibility = Visibility.Collapsed;
                 dtgDetailsRoles.Visibility = Visibility.Collapsed;
+                dtgDetailsRoles.ItemsSource = null;
             }
             else
             {
                 tbDetailsRolesTitleDisplay.Visibility = Visibility.Visible;
                 dtgDetailsRoles.Visibility = Visibility.Visible;
+                dtgDetailsRoles.ItemsSource = selectedUser.Permissions;
             }
             canPushChangesToDb = true;
         }
