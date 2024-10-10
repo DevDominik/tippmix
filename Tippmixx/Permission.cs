@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Linq;
 
 namespace Tippmixx
@@ -53,6 +54,7 @@ namespace Tippmixx
         {
             foreach (Permission permission in user.Permissions)
             {
+                MessageBox.Show(permission.IsActive.ToString(), permission.Role.DisplayName);
                 if (permission.Role.PermissibilityLevel == level)
                 {
                     return true;
@@ -76,9 +78,18 @@ namespace Tippmixx
                 {
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
-                            permissions.Add(new Permission(Convert.ToInt32(reader["ID"]), Convert.ToInt32(reader["BettorID"]), Convert.ToBoolean(reader["IsActive"]), Tippmixx.Role.All.Where(x => x.PermID == Convert.ToInt32(reader["PermID"])).First()));
+                            Role role = Tippmixx.Role.All.FirstOrDefault(x => x.PermID == Convert.ToInt32(reader["PermID"]));
+                            if (role != null)
+                            {
+                                permissions.Add(new Permission(
+                                    Convert.ToInt32(reader["ID"]),
+                                    Convert.ToInt32(reader["BettorID"]),
+                                    (bool)reader["IsActive"],
+                                    role
+                                ));
+                            }
                         }
                     }
                 }

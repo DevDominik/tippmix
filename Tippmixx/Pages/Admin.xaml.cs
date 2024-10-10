@@ -42,6 +42,12 @@ namespace Tippmixx
             tbDetailsCash.Text = selectedUser.Balance.ToString();
             if (!Permission.HasPermissibilityLevel(selectedUser, 5))
             {
+                tbDetailsRolesTitleDisplay.Visibility = Visibility.Collapsed;
+                dtgDetailsRoles.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                tbDetailsRolesTitleDisplay.Visibility = Visibility.Collapsed;
                 dtgDetailsRoles.Visibility = Visibility.Collapsed;
             }
             canPushChangesToDb = true;
