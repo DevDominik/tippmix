@@ -83,5 +83,10 @@ namespace Tippmixx
                 entry = this.spPages.RemoveBackEntry();
             }
         }
+
+        private void lviBettingPage_Selected(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

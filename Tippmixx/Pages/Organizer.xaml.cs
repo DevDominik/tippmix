@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace Tippmixx
 {
@@ -23,21 +12,27 @@ namespace Tippmixx
         public OrganizerPage()
         {
             InitializeComponent();
-            dtgEvents.ItemsSource = EventManager.RefreshEventList();
-            EventManager.CreateEvent("Basketball Tournament", new DateTime(2024, 11, 1), "Sports", "Arena B");
-            //EventManager.PlaceBet(1, 2, 1.5f, 100); // BettorID = 1, EventID = 2, Odds = 1.5, Amount = 100
-            //ObservableCollection<Bet> bets = EventManager.GetBetsByEventId(2); // Replace with the actual EventID
+            LoadEvents();
+        }
 
+        // Method to load events into DataGrid
+        private void LoadEvents(string searchTerm = "")
+        {
+            // Fetch events using EventManager and display in DataGrid
+            ObservableCollection<Event> eventList = EventManager.RefreshEventList(searchTerm);
+            dtgEvents.ItemsSource = eventList;
+        }
+
+        // Event handler for when the search box text changes
+        private void tbOrganizerSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Re-load the events based on the search term entered
+            LoadEvents(tbOrganizerSearch.Text);
         }
 
         private void dtgEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-        }
-
-        private void tbOrganizerSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            dtgEvents.ItemsSource = EventManager.RefreshEventList(tbOrganizerSearch.Text);
+            // You can handle selection logic here if needed.
         }
     }
 }
