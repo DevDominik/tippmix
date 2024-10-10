@@ -54,8 +54,7 @@ namespace Tippmixx
         {
             foreach (Permission permission in user.Permissions)
             {
-                MessageBox.Show(permission.IsActive.ToString(), permission.Role.DisplayName);
-                if (permission.Role.PermissibilityLevel == level)
+                if (permission.isActive && permission.Role.PermissibilityLevel == level)
                 {
                     return true;
                 }
@@ -63,14 +62,14 @@ namespace Tippmixx
             return false;
         }
         public static ObservableCollection<Permission> GetUserPermissions(int id) 
-        { 
+        {
             ObservableCollection<Permission> permissions = new ObservableCollection<Permission>();
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
                 conn.Open();
 
                 string query = @$"
-                SELECT ID, BettorID, PermID, IsActive 
+                SELECT ID, PermID, IsActive 
                 FROM Perms 
                 WHERE BettorID = {id}";
 
@@ -83,12 +82,13 @@ namespace Tippmixx
                             Role role = Tippmixx.Role.All.FirstOrDefault(x => x.PermID == Convert.ToInt32(reader["PermID"]));
                             if (role != null)
                             {
-                                permissions.Add(new Permission(
+                                Permission permission = new Permission(
                                     Convert.ToInt32(reader["ID"]),
-                                    Convert.ToInt32(reader["BettorID"]),
+                                    id,
                                     (bool)reader["IsActive"],
                                     role
-                                ));
+                                );
+                                permissions.Add(permission);
                             }
                         }
                     }
