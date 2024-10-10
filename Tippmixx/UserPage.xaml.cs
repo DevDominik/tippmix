@@ -58,7 +58,9 @@ namespace Tippmixx
 
         private void lviLogout_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            
+            Auth auth = new Auth();
+            auth.Show();
+            this.Close();
         }
 
         private void lviHome_PreviewMouseDown(object sender, MouseButtonEventArgs e)

@@ -10,10 +10,9 @@
 
     <Grid>
         <StackPanel>
-            <TextBlock FontSize="24" FontWeight="Bold" Text="My Placed Bets" Margin="10" />
+            <TextBlock FontSize="24" FontWeight="Bold" Text="Placed Bets" Margin="10" />
             <DataGrid x:Name="BetsDataGrid" AutoGenerateColumns="False" Margin="10" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Bet ID" Binding="{Binding BetsID}" />
                     <DataGridTextColumn Header="Event" Binding="{Binding EventName}" />
                     <DataGridTextColumn Header="Bet Amount" Binding="{Binding Amount}" />
                     <DataGridTextColumn Header="Odds" Binding="{Binding Odds}" />

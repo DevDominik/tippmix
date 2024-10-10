@@ -27,7 +27,7 @@ namespace Tippmixx
                     conn.Open();
 
                     // Query to retrieve bets for the logged-in user
-                    string query = "SELECT Bets.BetsID, Events.EventName, Bets.Amount, Bets.Odds, Bets.BetDate " +
+                    string query = "SELECT Events.EventName, Bets.Amount, Bets.Odds, Bets.BetDate " +
                                    "FROM Bets " +
                                    "JOIN Events ON Bets.EventID = Events.EventID " +
                                    "WHERE Bets.BettorsID = @BettorsID";
