@@ -87,6 +87,10 @@ namespace Tippmixx
 
         public void OnPropertyChanged([CallerMemberName] string name = null)
         {
+            if (!IsAllowedToLiveUpdate)
+            {
+                return;
+            }
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
             using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
             {
@@ -105,7 +109,10 @@ namespace Tippmixx
             }
 
         }
-
+        public User()
+        {
+            IsAllowedToLiveUpdate = false;
+        }
         public User(int id, string username, string password, int balance, string email, DateTime joindate, bool isActive)
         {
             this.id = id;
@@ -116,6 +123,7 @@ namespace Tippmixx
             this.isActive = isActive;
             this.password = password;
             UpdateAccessStatus();
+            IsAllowedToLiveUpdate = true;
         }
         void UpdateAccessStatus()
         {
@@ -131,6 +139,7 @@ namespace Tippmixx
         public string Password { get { return password; } set { password = value; OnPropertyChanged(); } }
         public DateTime JoinDate { get { return joindate; } set { joindate = value; OnPropertyChanged(); } }
         public bool IsActive { get { return isActive; } set { isActive = value; OnPropertyChanged(); UpdateAccessStatus(); } }
+        public bool IsAllowedToLiveUpdate { get; set; }
         public PackIconKind UserStatusAsIcon { get; private set; }
         public PackIconKind AllowAccessAsIcon {  get; private set; }
         public string AllowAccessAsString { get; private set; }
