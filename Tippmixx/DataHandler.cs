@@ -31,6 +31,7 @@ namespace Tippmixx
         {
             if (instance != null) { throw new TaskSchedulerException("There's already a DataHandler instance running in the background."); }
             instance = new("Server=localhost;Database=tippmix;User ID=root;Password=;");
+            BuildRoles();
         }
 
         /* 
@@ -137,11 +138,6 @@ namespace Tippmixx
                 }
             }
         }
-        public static Permission HighestPermission(User user)
-        {
-
-            return null;
-        }
         public static ObservableCollection<Permission> GetUserPermissions(User user)
         {
             ObservableCollection<Permission> permissions = new ObservableCollection<Permission>();
@@ -174,7 +170,7 @@ namespace Tippmixx
             return permissions;
         }
 
-        public static void PermissionUpdate(Permission permission, string name)
+        public static void UpdatePermission(Permission permission, string name)
         {
             string updateQueue = permission.GetType().GetProperty(name).GetValue(permission, null).ToString();
             if (name == "IsActive")

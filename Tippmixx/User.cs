@@ -57,6 +57,25 @@ namespace Tippmixx
             AllowAccessAsIcon = !isActive ? PackIconKind.Tick : PackIconKind.Ban;
             AllowAccessAsString = !isActive ? "Reactivate" : "Deactivate";
         }
+        public Permission HighestPermission()
+        {
+            Permission toReturn = null;
+            foreach (Permission permission in Permissions.Where(x => x.IsActive))
+            {
+                if (toReturn == null)
+                {
+                    toReturn = permission;
+                }
+                else
+                {
+                    if (toReturn.Role.PermissibilityLevel < permission.Role.PermissibilityLevel)
+                    {
+                        toReturn = permission;
+                    }
+                }
+            }
+            return toReturn;
+        }
 
         public bool HasPermissibilityLevel(int level)
         {
@@ -74,6 +93,6 @@ namespace Tippmixx
         public PackIconKind UserStatusAsIcon { get; private set; }
         public PackIconKind AllowAccessAsIcon {  get; private set; }
         public string AllowAccessAsString { get; private set; }
-        public ObservableCollection<Permission> Permissions { get { return DataHandler.GetUserPermissions(this); } }
+        public ObservableCollection<Permission> Permissions { get { return IsAllowedToLiveUpdate ? DataHandler.GetUserPermissions(this) : new ObservableCollection<Permission>(); } }
     }
 }
