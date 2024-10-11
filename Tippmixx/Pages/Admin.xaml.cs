@@ -22,12 +22,12 @@ namespace Tippmixx
     /// </summary>
     public partial class Admin : Page
     {
-        static User? selectedUser = null;
+        static User selectedUser = null;
         static bool canPushChangesToDb = false;
         public Admin()
         {
             InitializeComponent();
-            dtgFelhasznalok.ItemsSource = User.RefreshUserList(null);
+            dtgFelhasznalok.ItemsSource = DataHandler.GetAllBettors(null);
         }
 
         private void lviPwAct_Details_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -40,7 +40,7 @@ namespace Tippmixx
             tbUsername.Text = selectedUser.Username;
             tbDetailsUsername.Text = selectedUser.Username;
             tbDetailsCash.Text = selectedUser.Balance.ToString();
-            if (!Permission.HasPermissibilityLevel(User.Session, 5))
+            if (!User.Session.HasPermissibilityLevel(5))
             {
                 tbDetailsRolesTitleDisplay.Visibility = Visibility.Collapsed;
                 dtgDetailsRoles.Visibility = Visibility.Collapsed;
@@ -129,7 +129,7 @@ namespace Tippmixx
 
         private void tbSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            dtgFelhasznalok.ItemsSource = User.RefreshUserList(tbSearchBar.Text);
+            dtgFelhasznalok.ItemsSource = DataHandler.GetAllBettors(tbSearchBar.Text);
         }
 
         private void lviReturnFromDetails_PreviewMouseDown(object sender, MouseButtonEventArgs e)
