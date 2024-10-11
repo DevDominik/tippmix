@@ -13,5 +13,24 @@ namespace Tippmixx
     /// </summary>
     public partial class App : Application
     {
+        private Task backgroundTask;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            backgroundTask = Task.Run(() =>
+            {
+                DataHandler.Initialize();
+            });
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            if (backgroundTask != null && !backgroundTask.IsCompleted)
+            {
+                backgroundTask.Wait();
+            }
+            base.OnExit(e);
+        }
     }
 }
