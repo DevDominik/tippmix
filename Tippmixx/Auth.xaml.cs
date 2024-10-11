@@ -29,89 +29,10 @@ namespace Tippmixx
         }
 
         public readonly string dbConnectionString = "Server=localhost;Database=tippmix;User ID=root;Password=;";
-        private bool AuthenticateUser(string username, string password)
-        {
-            using (MySqlConnection conn = new MySqlConnection(dbConnectionString))
-            {
-                conn.Open();
-                string query = @"
-                SELECT Username, Email, Balance, IsActive, BettorsID, JoinDate 
-                FROM Bettors 
-                WHERE Username = @username AND Password = @password";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@username", username.ToLower());
-                    cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
-
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            User session = new User(Convert.ToInt32(reader["BettorsID"]), reader["Username"].ToString(), EasyEncryption.SHA.ComputeSHA256Hash(password), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), Convert.ToDateTime(reader["JoinDate"]), Convert.ToBoolean(reader["IsActive"]));
-                            User.Session = session;
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
+       
 
 
-        private bool RegisterUser(string username, string password, string email, int balance)
-        {
-            using (MySqlConnection conn = new MySqlConnection(dbConnectionString))
-            {
-                conn.Open();
-
-                string checkQuery = "SELECT COUNT(1) FROM Bettors WHERE Username = @username OR Email = @Email";
-                using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
-                {
-                    checkCmd.Parameters.AddWithValue("@username", username.ToLower());
-                    checkCmd.Parameters.AddWithValue("@Email", email.ToLower());
-
-                    int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                    if (exists > 0)
-                    {
-                        MessageBox.Show("Username or email already exists.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return false;
-                    }
-                }
-
-                string insertQuery = @"
-            INSERT INTO Bettors (Username, Balance, Email, Password, JoinDate, IsActive)
-            VALUES (@username, @balance, @Email, @password, @joinDate, @isActive)";
-
-                using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
-                {
-                    cmd.Parameters.AddWithValue("@username", username.ToLower());
-                    cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
-                    cmd.Parameters.AddWithValue("@Email", email.ToLower());
-                    cmd.Parameters.AddWithValue("@balance", balance);
-                    cmd.Parameters.AddWithValue("@joinDate", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@isActive", true);
-
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Registration successful.", "Auth", MessageBoxButton.OK, MessageBoxImage.Information);
-                        return true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Registration failed. Please try again.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return false;
-                    }
-                }
-            }
-        }
-
+      
         private void lviAction_Selected(object sender, RoutedEventArgs e)
         {
             string username = tbUsername.Text.ToLower();

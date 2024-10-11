@@ -31,36 +31,7 @@ namespace Tippmixx
             _eventsList = EventManager.RefreshEventList();
             EventComboBox.ItemsSource = _eventsList;
         }
-        private decimal GetBettorBalance(int bettorId)
-        {
-            decimal balance = 0;
-
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "SELECT Balance FROM Bettors WHERE BettorsID = @bettorId";
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@bettorId", bettorId);
-                    balance = Convert.ToDecimal(cmd.ExecuteScalar());
-                }
-            }
-            return balance;
-        }
-        private void DeductBalance(int bettorId, int amount)
-        {
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "UPDATE Bettors SET Balance = Balance - @amount WHERE BettorsID = @bettorId";
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@amount", amount);
-                    cmd.Parameters.AddWithValue("@bettorId", bettorId);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
+        
         private void PlaceBetButton_Click(object sender, RoutedEventArgs e)
         {
             try
