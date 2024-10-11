@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace Tippmixx
 {
@@ -45,7 +46,9 @@ namespace Tippmixx
 
         public static void GetBettorData(User user, string[] propNames)
         {
+            user.IsAllowedToLiveUpdate = false;
             string query = $"SELECT {string.Join(",", propNames)} FROM `bettors` WHERE `bettors`.`BettorsID` = @bettorId;";
+            
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
                 using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -60,9 +63,10 @@ namespace Tippmixx
                     }
                 }
             }
+            user.IsAllowedToLiveUpdate = true;
         }
 
-        public static ObservableCollection<User> GetAllBettors(string input = "-1")
+        public static ObservableCollection<User> GetAllBettors(string input = null)
         {
             ObservableCollection<User> UsersList = new();
             string query;
@@ -172,39 +176,40 @@ namespace Tippmixx
         }
 
 
-        private decimal GetBettorBalance(int bettorId)
+        public static ObservableCollection<Bet> GetUserBets(User user)
         {
-            decimal balance = 0;
-
-            using (MySqlConnection conn = new MySqlConnection(conn))
-            {
-                conn.Open();
-                string query = "SELECT Balance FROM Bettors WHERE BettorsID = @bettorId";
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@bettorId", bettorId);
-                    balance = Convert.ToDecimal(cmd.ExecuteScalar());
-                }
-            }
-            return balance;
-        }
-
-
-        public static ObservableCollection<Permission> GetUserBets(User user)
-        {
-
+            ObservableCollection<Bet> bets = new ObservableCollection<Bet>();
             string query = "SELECT Events.EventName, Bets.Amount, Bets.Odds, Bets.BetDate " +
                                   "FROM Bets " +
                                   "JOIN Events ON Bets.EventID = Events.EventID " +
                                   "WHERE Bets.BettorsID = @BettorsID";
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
-                cmd.Parameters.AddWithValue("@BettorsID", User.Session.Id);
-                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
+                cmd.Parameters.AddWithValue("@BettorsID", user.Id);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        
+                        Event assignedEvent = Event.All.FirstOrDefault(x => x.EventID == Convert.ToInt32(reader["EventID"]));
+
+                        if (assignedEvent != null)
+                        {
+                            Bet bet = new Bet(
+                                Convert.ToInt32(reader["BetsID"]),
+                                Convert.ToDateTime(reader["BetDate"]),
+                                float.Parse(reader["Odds"].ToString()),
+                                Convert.ToInt32(reader["Amount"]),
+                                Convert.ToInt32(reader["BettorsID"]),
+                                Convert.ToBoolean(reader["Status"]),
+                                assignedEvent
+                            );
+                            bets.Add(bet);
+                        }
+                    }
+                }
             }
-            return dataTable;
+            return bets;
         }
 
 
@@ -264,14 +269,13 @@ namespace Tippmixx
                 {
                     while (reader.Read())
                     {
-                        eventList.Add(new Event
-                        {
-                            EventID = Convert.ToInt32(reader["EventID"]),
-                            EventName = reader["EventName"].ToString(),
-                            EventDate = DateTime.Parse(reader["EventDate"].ToString()),
-                            Category = reader["Category"].ToString(),
-                            Location = reader["Location"].ToString()
-                        });
+                        eventList.Add(new Event(
+                            Convert.ToInt32(reader["EventID"]),
+                            reader["EventName"].ToString(),
+                            DateTime.Parse(reader["EventDate"].ToString()),
+                            reader["Category"].ToString(),
+                            reader["Location"].ToString()
+                        ));
                     }
                 }
             }
@@ -279,14 +283,14 @@ namespace Tippmixx
         }
 
 
-        public static bool Login()
+        public static bool Login(string username, string password)
         {
             string query = @"
                 SELECT Username, Email, Balance, IsActive, BettorsID, JoinDate 
                 FROM Bettors 
                 WHERE Username = @username AND Password = @password";
 
-            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
                 cmd.Parameters.AddWithValue("@username", username.ToLower());
                 cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
@@ -309,52 +313,47 @@ namespace Tippmixx
 
 
 
-        private bool RegisterUser(string username, string password, string email, int balance)
+        private bool Register(string username, string password, string email, int balance)
         {
-            using (MySqlConnection conn = new MySqlConnection(dbConnectionString))
+            string checkQuery = "SELECT COUNT(1) FROM Bettors WHERE Username = @username OR Email = @Email";
+            using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, connection))
             {
-                conn.Open();
+                checkCmd.Parameters.AddWithValue("@username", username.ToLower());
+                checkCmd.Parameters.AddWithValue("@Email", email.ToLower());
 
-                string checkQuery = "SELECT COUNT(1) FROM Bettors WHERE Username = @username OR Email = @Email";
-                using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
+                int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                if (exists > 0)
                 {
-                    checkCmd.Parameters.AddWithValue("@username", username.ToLower());
-                    checkCmd.Parameters.AddWithValue("@Email", email.ToLower());
-
-                    int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                    if (exists > 0)
-                    {
-                        MessageBox.Show("Username or email already exists.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return false;
-                    }
+                    //MessageBox.Show("Username or email already exists.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
                 }
+            }
 
-                string insertQuery = @"
+            string insertQuery = @"
             INSERT INTO Bettors (Username, Balance, Email, Password, JoinDate, IsActive)
             VALUES (@username, @balance, @Email, @password, @joinDate, @isActive)";
 
-                using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
+            using (MySqlCommand cmd = new MySqlCommand(insertQuery, connection))
+            {
+                cmd.Parameters.AddWithValue("@username", username.ToLower());
+                cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
+                cmd.Parameters.AddWithValue("@Email", email.ToLower());
+                cmd.Parameters.AddWithValue("@balance", balance);
+                cmd.Parameters.AddWithValue("@joinDate", DateTime.Now);
+                cmd.Parameters.AddWithValue("@isActive", true);
+
+                int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
                 {
-                    cmd.Parameters.AddWithValue("@username", username.ToLower());
-                    cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
-                    cmd.Parameters.AddWithValue("@Email", email.ToLower());
-                    cmd.Parameters.AddWithValue("@balance", balance);
-                    cmd.Parameters.AddWithValue("@joinDate", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@isActive", true);
-
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Registration successful.", "Auth", MessageBoxButton.OK, MessageBoxImage.Information);
-                        return true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Registration failed. Please try again.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return false;
-                    }
+                    //MessageBox.Show("Registration successful.", "Auth", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return true;
+                }
+                else
+                {
+                    //MessageBox.Show("Registration failed. Please try again.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
                 }
             }
         }
@@ -362,31 +361,27 @@ namespace Tippmixx
 
         private bool AuthenticateUser(string username, string password)
         {
-            using (MySqlConnection conn = new MySqlConnection(dbConnectionString))
-            {
-                conn.Open();
-                string query = @"
+            string query = @"
                 SELECT Username, Email, Balance, IsActive, BettorsID, JoinDate 
                 FROM Bettors 
                 WHERE Username = @username AND Password = @password";
 
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@username", username.ToLower());
-                    cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@username", username.ToLower());
+                cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
 
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
                     {
-                        if (reader.Read())
-                        {
-                            User session = new User(Convert.ToInt32(reader["BettorsID"]), reader["Username"].ToString(), EasyEncryption.SHA.ComputeSHA256Hash(password), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), Convert.ToDateTime(reader["JoinDate"]), Convert.ToBoolean(reader["IsActive"]));
-                            User.Session = session;
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        User session = new User(Convert.ToInt32(reader["BettorsID"]), reader["Username"].ToString(), EasyEncryption.SHA.ComputeSHA256Hash(password), Convert.ToInt32(reader["Balance"]), reader["Email"].ToString(), Convert.ToDateTime(reader["JoinDate"]), Convert.ToBoolean(reader["IsActive"]));
+                        User.Session = session;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
             }
