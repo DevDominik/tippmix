@@ -28,7 +28,7 @@
                 </StackPanel>
             </ListViewItem>
         </StackPanel>
-        <Grid x:Name="grdUserDetails" Visibility="Collapsed" Background="White" Grid.Row="1">
+        <Grid x:Name="grdUserDetails" Visibility="Visible" Background="White" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="50"/>
@@ -102,7 +102,7 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <Grid x:Name="grdUserListing" Visibility="Visible" Grid.Row="1">
+        <Grid x:Name="grdUserListing" Visibility="Hidden" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition/>

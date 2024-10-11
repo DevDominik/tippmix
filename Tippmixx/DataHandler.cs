@@ -16,47 +16,58 @@ namespace Tippmixx
         static MySqlConnection connection;
         static DataHandler instance = new DataHandler("Server=localhost;Database=tippmix;User ID=root;Password=;");
         DataHandler(string connectionString) 
-        { 
+        {
             connection = new MySqlConnection(connectionString);
             connection.Open();
         }
         ~DataHandler() {
             connection.Close();
         }
-        public static bool RequestWithoutQuery(string command) 
-        {
-            return true;
-        }
-        public static List<T> RequestWithQuery<T>(string command, Dictionary<string, string> argumentDefiner, Dictionary<string, Type> typeDefiner) 
-        {
-            List<T> toReturn = new List<T>();
-            int index = 0;
-            Type[] typeArray = new Type[typeDefiner.Count];
-            foreach (KeyValuePair<string, Type> kvp in typeDefiner)
-            {
-                typeArray[index] = kvp.Value;
-                index++;
-            }
-            ConstructorInfo ctor = typeof(T).GetConstructor(typeArray);
-            ParameterInfo[] parameters = ctor.GetParameters();
-            foreach (KeyValuePair<string, string> kvp in argumentDefiner)
-            {
+        
+        /* 
+         * A
+         * |
+         * |
+         * | Automation, don't touch it
+         * 
+         */
 
-            }
-            using (MySqlCommand cmd = new MySqlCommand(command, connection))
-            {
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
+
+
+        //public static bool RequestWithoutQuery(string command) 
+        //{
+        //    return true;
+        //}
+        //public static List<T> RequestWithQuery<T>(string command, Dictionary<string, string> argumentDefiner, Dictionary<string, Type> typeDefiner) 
+        //{
+        //    List<T> toReturn = new List<T>();
+        //    int index = 0;
+        //    Type[] typeArray = new Type[typeDefiner.Count];
+        //    foreach (KeyValuePair<string, Type> kvp in typeDefiner)
+        //    {
+        //        typeArray[index] = kvp.Value;
+        //        index++;
+        //    }
+        //    ConstructorInfo ctor = typeof(T).GetConstructor(typeArray);
+        //    ParameterInfo[] parameters = ctor.GetParameters();
+        //    foreach (KeyValuePair<string, string> kvp in argumentDefiner)
+        //    {
+
+        //    }
+        //    using (MySqlCommand cmd = new MySqlCommand(command, connection))
+        //    {
+        //        using (MySqlDataReader reader = cmd.ExecuteReader())
+        //        {
                     
-                    while (reader.Read())
-                    {
+        //            while (reader.Read())
+        //            {
                         
-                        T final = (T)Activator.CreateInstance(typeof(T), parameters);
-                        toReturn.Add(final);
-                    }
-                }
-            }
-            return toReturn;
-        }
+        //                T final = (T)Activator.CreateInstance(typeof(T), parameters);
+        //                toReturn.Add(final);
+        //            }
+        //        }
+        //    }
+        //    return toReturn;
+        //}
     }
 }
