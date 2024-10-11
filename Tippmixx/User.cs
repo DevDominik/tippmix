@@ -23,7 +23,6 @@ namespace Tippmixx
         string email;
         DateTime joindate;
         bool isActive;
-        ObservableCollection<Permission> permissions;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -75,6 +74,6 @@ namespace Tippmixx
         public PackIconKind UserStatusAsIcon { get; private set; }
         public PackIconKind AllowAccessAsIcon {  get; private set; }
         public string AllowAccessAsString { get; private set; }
-        public ObservableCollection<Permission> Permissions { get { return permissions; } set { permissions = value; } }
+        public ObservableCollection<Permission> Permissions { get { return DataHandler.GetUserPermissions(this); } }
     }
 }

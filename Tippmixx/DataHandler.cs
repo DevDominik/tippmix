@@ -103,10 +103,6 @@ namespace Tippmixx
                     }
                 }
             }
-            foreach (User user in UsersList)
-            {
-                user.Permissions = GetUserPermissions(user);
-            }
             return UsersList;
         }
 
@@ -141,12 +137,10 @@ namespace Tippmixx
                 }
             }
         }
-        public static Permission? HighestPermission(User user)
+        public static Permission HighestPermission(User user)
         {
-            return user.Permissions
-                .Where(p => p.IsActive)
-                .OrderByDescending(p => p.Role.PermissibilityLevel)
-                .FirstOrDefault();
+
+            return null;
         }
         public static ObservableCollection<Permission> GetUserPermissions(User user)
         {

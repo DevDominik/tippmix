@@ -28,28 +28,6 @@ namespace Tippmixx
             RoleIcon = Misc.GetPackIconKindFromString(roleIcon);
             All.Add(this);
         }
-        public static void BuildRoles() 
-        {
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
-            {
-                conn.Open();
-                
-                string query = @"
-                SELECT PermID, DisplayName, PermissibilityLevel, RoleIconName 
-                FROM PermSettings";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            new Role(Convert.ToInt32(reader["PermID"]), reader["DisplayName"].ToString(), Convert.ToInt32(reader["PermissibilityLevel"]), reader["RoleIconName"].ToString());
-                        }
-                    }
-                }
-            }
-        }
     }
     public class Permission : INotifyPropertyChanged
     {
