@@ -40,8 +40,8 @@ namespace Tippmixx
                 if (string.IsNullOrWhiteSpace(input))
                 {
                     query = @"
-    SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive 
-    FROM Bettors";
+                    SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive 
+                    FROM Bettors";
                 }
                 else if (int.TryParse(input, out int parsedId))
                 {
@@ -54,8 +54,8 @@ namespace Tippmixx
                 else
                 {
                     query = @"
-    SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive 
-    FROM Bettors";
+                    SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive 
+                    FROM Bettors";
                 }
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))

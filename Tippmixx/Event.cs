@@ -48,8 +48,8 @@ namespace Tippmixx
                 if (string.IsNullOrWhiteSpace(input))
                 {
                     query = @"
-SELECT EventID, EventName, EventDate, Category, Location 
-FROM Events";
+                    SELECT EventID, EventName, EventDate, Category, Location 
+                    FROM Events";
                 }
                 else if (int.TryParse(input, out int parsedId))
                 {
@@ -62,8 +62,8 @@ FROM Events";
                 else
                 {
                     query = @"
-SELECT EventID, EventName, EventDate, Category, Location 
-FROM Events";
+                    SELECT EventID, EventName, EventDate, Category, Location 
+                    FROM Events";
                 }
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -120,8 +120,8 @@ FROM Events";
             {
                 conn.Open();
                 string query = @"
-SELECT BetsID, BetDate, Odds, Amount, BettorsID, Status 
-FROM Bets WHERE EventID = @EventID";
+                SELECT BetsID, BetDate, Odds, Amount, BettorsID, Status 
+                FROM Bets WHERE EventID = @EventID";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
