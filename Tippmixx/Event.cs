@@ -20,7 +20,7 @@ namespace Tippmixx
                 string query = @"
                 INSERT INTO Events (EventName, EventDate, Category, Location) 
                 VALUES (@EventName, @EventDate, @Category, @Location);
-                SELECT LAST_INSERT_ID();"; // Retrieve the generated EventID
+                SELECT LAST_INSERT_ID();";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -29,7 +29,7 @@ namespace Tippmixx
                     cmd.Parameters.AddWithValue("@Category", category);
                     cmd.Parameters.AddWithValue("@Location", location);
 
-                    int newEventID = Convert.ToInt32(cmd.ExecuteScalar()); // Execute the command and get the new EventID
+                    int newEventID = Convert.ToInt32(cmd.ExecuteScalar()); 
                     Console.WriteLine("New Event created with ID: " + newEventID);
                 }
             }

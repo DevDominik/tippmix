@@ -20,25 +20,20 @@ namespace Tippmixx
         {
             try
             {
-                // Connection string
                 string connString = "Server=localhost;Database=tippmix;User ID=root;Password=;";
                 using (MySqlConnection conn = new MySqlConnection(connString))
                 {
                     conn.Open();
-
-                    // Query to retrieve bets for the logged-in user
                     string query = "SELECT Events.EventName, Bets.Amount, Bets.Odds, Bets.BetDate " +
                                    "FROM Bets " +
                                    "JOIN Events ON Bets.EventID = Events.EventID " +
                                    "WHERE Bets.BettorsID = @BettorsID";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@BettorsID", User.Session.Id); // Assuming Session.ID holds the logged-in user's ID
+                        cmd.Parameters.AddWithValue("@BettorsID", User.Session.Id);
                         MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);
-
-                        // Set the DataGrid's ItemsSource to the retrieved data
                         BetsDataGrid.ItemsSource = dataTable.DefaultView;
                     }
                 }
