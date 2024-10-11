@@ -26,64 +26,6 @@ namespace Tippmixx
         ObservableCollection<Permission> permissions;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public static ObservableCollection<User> RefreshUserList(string input = "-1")
-        {
-            ObservableCollection<User> UsersList = new();
-            UsersList.Clear();
-
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
-            {
-                conn.Open();
-
-                string query;
-
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    query = @"
-    SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive 
-    FROM Bettors";
-                }
-                else if (int.TryParse(input, out int parsedId))
-                {
-                    query = $"SELECT BettorsID, Username, Password, Email, JoinDate, Balance, IsActive FROM Bettors WHERE BettorsID LIKE '{parsedId}%'";
-                }
-                else if (input.Any(char.IsLetter))
-                {
-                    query = $"SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive FROM Bettors WHERE Username LIKE '{input}%'";
-                }
-                else
-                {
-                    query = @"
-    SELECT BettorsID, Username, Email, Password, JoinDate, Balance, IsActive 
-    FROM Bettors";
-                }
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            UsersList.Add(new User(
-                                Convert.ToInt32(reader["BettorsID"]),
-                                reader["Username"].ToString(),
-                                reader["Password"].ToString(),
-                                Convert.ToInt32(reader["Balance"]),
-                                reader["Email"].ToString(),
-                                DateTime.Parse(reader["JoinDate"].ToString()),
-                                (bool)reader["IsActive"]
-                            ));
-                        }
-                    }
-                }
-                
-            }
-            foreach (User user in UsersList)
-            {
-                user.permissions = Permission.GetUserPermissions(user.id);
-            }
-            return UsersList;
-        }
 
         public void OnPropertyChanged([CallerMemberName] string name = null)
         {
@@ -92,22 +34,7 @@ namespace Tippmixx
                 return;
             }
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
-            {
-                conn.Open();
-                string updateQueue = GetType().GetProperty(name).GetValue(this, null).ToString();
-                if (name == "IsActive") 
-                { 
-                    updateQueue = isActive ? "1" : "0";
-                }
-                string query = $"UPDATE `bettors` SET `{name}` = '{updateQueue}' WHERE `bettors`.`BettorsID` = {id}";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-            }
-
+            DataHandler.UpdateBettorData(this, name);
         }
         public User()
         {
@@ -130,6 +57,11 @@ namespace Tippmixx
             UserStatusAsIcon = isActive ? PackIconKind.AccountCheck : PackIconKind.AccountCancel;
             AllowAccessAsIcon = !isActive ? PackIconKind.Tick : PackIconKind.Ban;
             AllowAccessAsString = !isActive ? "Reactivate" : "Deactivate";
+        }
+
+        public bool HasPermissibilityLevel(int level)
+        {
+            return Permissions.Any(x => x.Role.PermissibilityLevel == level && x.IsActive);
         }
 
         public int Id { get { return id; } set { id = value; OnPropertyChanged(); } }

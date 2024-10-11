@@ -105,7 +105,7 @@ namespace Tippmixx
             }
             foreach (User user in UsersList)
             {
-                user.Permissions = Permission.GetUserPermissions(user);
+                user.Permissions = GetUserPermissions(user);
             }
             return UsersList;
         }
@@ -124,40 +124,77 @@ namespace Tippmixx
             }
         }
 
-        //public static bool RequestWithoutQuery(string command) 
-        //{
-        //    return true;
-        //}
-        //public static List<T> RequestWithQuery<T>(string command, Dictionary<string, string> argumentDefiner, Dictionary<string, Type> typeDefiner) 
-        //{
-        //    List<T> toReturn = new List<T>();
-        //    int index = 0;
-        //    Type[] typeArray = new Type[typeDefiner.Count];
-        //    foreach (KeyValuePair<string, Type> kvp in typeDefiner)
-        //    {
-        //        typeArray[index] = kvp.Value;
-        //        index++;
-        //    }
-        //    ConstructorInfo ctor = typeof(T).GetConstructor(typeArray);
-        //    ParameterInfo[] parameters = ctor.GetParameters();
-        //    foreach (KeyValuePair<string, string> kvp in argumentDefiner)
-        //    {
+        public static void BuildRoles()
+        {
+            string query = @"
+                SELECT PermID, DisplayName, PermissibilityLevel, RoleIconName 
+                FROM PermSettings";
 
-        //    }
-        //    using (MySqlCommand cmd = new MySqlCommand(command, connection))
-        //    {
-        //        using (MySqlDataReader reader = cmd.ExecuteReader())
-        //        {
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        new Role(Convert.ToInt32(reader["PermID"]), reader["DisplayName"].ToString(), Convert.ToInt32(reader["PermissibilityLevel"]), reader["RoleIconName"].ToString());
+                    }
+                }
+            }
+        }
+        public static Permission? HighestPermission(User user)
+        {
+            return user.Permissions
+                .Where(p => p.IsActive)
+                .OrderByDescending(p => p.Role.PermissibilityLevel)
+                .FirstOrDefault();
+        }
+        public static ObservableCollection<Permission> GetUserPermissions(User user)
+        {
+            ObservableCollection<Permission> permissions = new ObservableCollection<Permission>();
+            string query = @$"
+        SELECT ID, PermID, IsActive 
+        FROM Perms 
+        WHERE BettorID = {user.Id}";
 
-        //            while (reader.Read())
-        //            {
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Role role = Role.All.FirstOrDefault(x => x.PermID == Convert.ToInt32(reader["PermID"]));
 
-        //                T final = (T)Activator.CreateInstance(typeof(T), parameters);
-        //                toReturn.Add(final);
-        //            }
-        //        }
-        //    }
-        //    return toReturn;
-        //}
+                        if (role != null)
+                        {
+                            Permission permission = new Permission(
+                                Convert.ToInt32(reader["ID"]),
+                                user.Id,
+                                (bool)reader["IsActive"],
+                                role
+                            );
+                            permissions.Add(permission);
+                        }
+                    }
+                }
+            }
+            return permissions;
+        }
+
+        public static void PermissionUpdate(Permission permission, string name)
+        {
+            string updateQueue = permission.GetType().GetProperty(name).GetValue(permission, null).ToString();
+            if (name == "IsActive")
+            {
+                updateQueue = permission.IsActive ? "1" : "0";
+            }
+            string query = $"UPDATE `perms` SET `{name}` = '{updateQueue}' WHERE `perms`.`ID` = {permission.ID}";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+       
     }
 }
