@@ -27,8 +27,7 @@ namespace Tippmixx
             _userPage = userPage;
             _random = new Random();
             _bettorId = User.Session.Id;
-            _balance = GetBettorBalance(_bettorId);
-            _eventsList = EventManager.RefreshEventList();
+            //_balance = GetBettorBalance(_bettorId);
             EventComboBox.ItemsSource = _eventsList;
         }
         
@@ -44,10 +43,10 @@ namespace Tippmixx
                         MessageBox.Show("Insufficient balance to place this bet.");
                         return;
                     }
-                    DeductBalance(_bettorId, amount);
+                    //DeductBalance(_bettorId, amount);
                     _balance -= amount;
                     _userPage.UpdateBalance(_balance);
-                    EventManager.PlaceBet(_bettorId, _selectedEvent.EventID, _generatedOdds, amount);
+                    //EventManager.PlaceBet(_bettorId, _selectedEvent.EventID, _generatedOdds, amount);
                     ConfirmationTextBlock.Text = $"Bet placed successfully for Event: {_selectedEvent.EventName} with odds: {_generatedOdds}. Amount: {amount:C} deducted from your balance.";
                     AmountTextBox.Clear();
                     EventComboBox.SelectedIndex = -1;

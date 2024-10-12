@@ -15,20 +15,20 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Margin="10 2" x:Name="splMenuPoints" Orientation="Horizontal">
-            <ListViewItem Style="{StaticResource menupointLvi}" PreviewMouseDown="lviMenuPointSwitch_PreviewMouseDown">
+            <ListViewItem Style="{StaticResource menupointLvi}" x:Name="lviUserControl" PreviewMouseDown="lviUserControl_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Height="21" Width="21" Kind="People"/>
                     <TextBlock Text="User Control"/>
                 </StackPanel>
             </ListViewItem>
-            <ListViewItem Style="{StaticResource menupointLvi}" PreviewMouseDown="lviMenuPointSwitch_PreviewMouseDown">
+            <ListViewItem Style="{StaticResource menupointLvi}" x:Name="lviMessaging" PreviewMouseDown="lviMessaging_PreviewMouseDown">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Height="21" Width="21" Kind="Announcement"/>
                     <TextBlock Text="Messaging"/>
                 </StackPanel>
             </ListViewItem>
         </StackPanel>
-        <Grid x:Name="grdUserDetails" Visibility="Visible" Background="White" Grid.Row="1">
+        <Grid x:Name="grdUserDetails" Visibility="Collapsed" Background="White" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="50"/>
@@ -44,20 +44,20 @@
             </StackPanel>
             <Border Style="{StaticResource brdRow}" Grid.Row="1">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <StackPanel Margin="10 2" Width="450" Orientation="Horizontal" VerticalAlignment="Center">
-                        <materialDesign:PackIcon Height="30" Width="30" x:Name="mdpi_UserCreds" Kind="Person"/>
+                    <StackPanel Margin="10 2" Width="400" Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Height="30" Width="30" x:Name="mdpi_IsActive" Kind="AccountTick"/>
                         <TextBlock VerticalAlignment="Center" FontSize="15" x:Name="tbUsername" Text="Username"/>
                     </StackPanel>
-                    <StackPanel Margin="10 2" Width="510" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <StackPanel Margin="10 2" Width="560" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <ListViewItem x:Name="lviPwAct_ToggleActive" PreviewMouseDown="lviPwAct_ToggleActive_PreviewMouseDown">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <materialDesign:PackIcon Kind="Ban"/>
-                                <TextBlock Text="Deactivate"/>
+                                <materialDesign:PackIcon x:Name="mdpi_DetailsToggleAccess" Kind="Ban"/>
+                                <TextBlock Text="Deactivate" x:Name="tbDetailsToggleAccess"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem x:Name="lviPwAct_CashReset" PreviewMouseDown="lviPwAct_CashReset_PreviewMouseDown">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <materialDesign:PackIcon Kind="Refresh"/>
+                                <materialDesign:PackIcon Kind="CashRefund"/>
                                 <TextBlock Text="Reset Balance"/>
                             </StackPanel>
                         </ListViewItem>
@@ -67,10 +67,10 @@
                                 <TextBlock Text="Reset Password"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem x:Name="lviPwAct_EmailReset" PreviewMouseDown="lviPwAct_EmailReset_PreviewMouseDown">
+                        <ListViewItem x:Name="lviPwAct_UsernameReset" PreviewMouseDown="lviPwAct_UsernameReset_PreviewMouseDown">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <materialDesign:PackIcon Kind="EmailRemove"/>
-                                <TextBlock Text="Reset Email"/>
+                                <materialDesign:PackIcon Kind="PersonCardDetails"/>
+                                <TextBlock Text="Reset Username"/>
                             </StackPanel>
                         </ListViewItem>
                     </StackPanel>
@@ -85,24 +85,41 @@
                     <TextBlock Style="{StaticResource title}" Text="Username"/>
                     <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="At"/>
-                        <TextBox x:Name="tbDetailsUsername" Text="Username"/>
+                        <TextBox x:Name="tbDetailsUsername" PreviewTextInput="tbDetailsUsername_PreviewTextInput" Text="Username"/>
                     </StackPanel>
                     <TextBlock Style="{StaticResource title}" Text="Cash"/>
                     <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Dollar"/>
-                        <TextBox x:Name="tbDetailsCash" Text="Cash"/>
+                        <TextBox x:Name="tbDetailsCash" PreviewTextInput="tbDetailsCash_PreviewTextInput" Text="Cash"/>
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <ListViewItem x:Name="lviUpdateUser" PreviewMouseDown="lviUpdateUser_PreviewMouseDown" HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Upload"/>
+                                <TextBlock Text="Update"/>
+                            </StackPanel>
+                        </ListViewItem>
                     </StackPanel>
                     <TextBlock Style="{StaticResource title}" x:Name="tbDetailsRolesTitleDisplay" Text="Roles"/>
-                    <DataGrid x:Name="dtgDetailsRoles" Margin="10 0" CanUserResizeRows="False" CanUserAddRows="False" CanUserResizeColumns="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="False" SelectionChanged="dtgFelhasznalok_SelectionChanged">
+                    <DataGrid x:Name="dtgDetailsRoles" Margin="10 0" Focusable="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserResizeColumns="False" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionChanged="dtgFelhasznalok_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="200" Binding="{Binding Role.DisplayName}" Header="Role Name"/>
+                            <DataGridTemplateColumn Width="200" Header="Role Name" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="16 0" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="{Binding Role.RoleIcon}"/>
+                                            <TextBlock Text="{Binding Role.DisplayName}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridCheckBoxColumn Binding="{Binding IsActive}" Header="Enabled"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
             </Grid>
         </Grid>
-        <Grid x:Name="grdUserListing" Visibility="Hidden" Grid.Row="1">
+        <Grid x:Name="grdUserListing" Visibility="Visible" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition/>
@@ -172,7 +189,7 @@
                                     </ListViewItem>
                                     <ListViewItem x:Name="lviPwAct_CashReset" PreviewMouseDown="lviPwAct_CashReset_PreviewMouseDown">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <materialDesign:PackIcon Kind="Refresh"/>
+                                            <materialDesign:PackIcon Kind="CashRefund"/>
                                             <TextBlock Text="Reset Balance"/>
                                         </StackPanel>
                                     </ListViewItem>
@@ -182,10 +199,10 @@
                                             <TextBlock Text="Reset Password"/>
                                         </StackPanel>
                                     </ListViewItem>
-                                    <ListViewItem x:Name="lviPwAct_EmailReset" PreviewMouseDown="lviPwAct_EmailReset_PreviewMouseDown">
+                                    <ListViewItem x:Name="lviPwAct_UsernameReset" PreviewMouseDown="lviPwAct_UsernameReset_PreviewMouseDown">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <materialDesign:PackIcon Kind="EmailRemove"/>
-                                            <TextBlock Text="Reset Email"/>
+                                            <materialDesign:PackIcon Kind="PersonCardDetails"/>
+                                            <TextBlock Text="Reset Username"/>
                                         </StackPanel>
                                     </ListViewItem>
                                 </StackPanel>

@@ -14,7 +14,7 @@ namespace Tippmixx
 
         private void LoadEvents(string searchTerm = "")
         {
-            ObservableCollection<Event> eventList = EventManager.RefreshEventList(searchTerm);
+            ObservableCollection<Event> eventList = DataHandler.RefreshEventList(searchTerm);
             dtgEvents.ItemsSource = eventList;
         }
         private void tbOrganizerSearch_TextChanged(object sender, TextChangedEventArgs e)

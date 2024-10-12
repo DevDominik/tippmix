@@ -46,7 +46,6 @@ namespace Tippmixx
 
         public static void GetBettorData(User user, string[] propNames)
         {
-            user.IsAllowedToLiveUpdate = false;
             string query = $"SELECT {string.Join(",", propNames)} FROM `bettors` WHERE `bettors`.`BettorsID` = @bettorId;";
             
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
@@ -63,7 +62,6 @@ namespace Tippmixx
                     }
                 }
             }
-            user.IsAllowedToLiveUpdate = true;
         }
 
         public static ObservableCollection<User> GetAllBettors(string input = null)
@@ -109,6 +107,11 @@ namespace Tippmixx
                     }
                 }
             }
+            User match = UsersList.FirstOrDefault(x => x.Id == User.Session.Id);
+            if (match != null)
+            {
+                UsersList.Remove(match);
+            }
             return UsersList;
         }
 
@@ -123,7 +126,9 @@ namespace Tippmixx
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
                 cmd.Parameters.AddWithValue("@bettorId", user.Id);
+                cmd.ExecuteNonQuery();
             }
+
         }
 
         public static void BuildRoles()
@@ -313,7 +318,7 @@ namespace Tippmixx
 
 
 
-        private bool Register(string username, string password, string email, int balance)
+        public static bool Register(string username, string password, string email, int balance)
         {
             string checkQuery = "SELECT COUNT(1) FROM Bettors WHERE Username = @username OR Email = @Email";
             using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, connection))
@@ -325,7 +330,6 @@ namespace Tippmixx
 
                 if (exists > 0)
                 {
-                    //MessageBox.Show("Username or email already exists.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
             }
@@ -408,188 +412,6 @@ namespace Tippmixx
 
                     cmd.ExecuteNonQuery(); // Execute the command to insert the bet
                     Console.WriteLine("Bet placed successfully for EventID: " + eventId);
-                }
-            }
-        }
-
-
-        public static ObservableCollection<Event> RefreshEventList(string input = null)
-        {
-            ObservableCollection<Event> eventList = new();
-            eventList.Clear();
-
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
-            {
-                conn.Open();
-                string query;
-
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    query = @"
-                    SELECT EventID, EventName, EventDate, Category, Location 
-                    FROM Events";
-                }
-                else if (int.TryParse(input, out int parsedId))
-                {
-                    query = $"SELECT EventID, EventName, EventDate, Category, Location FROM Events WHERE EventID LIKE '{parsedId}%'";
-                }
-                else if (input.Any(char.IsLetter))
-                {
-                    query = $"SELECT EventID, EventName, EventDate, Category, Location FROM Events WHERE EventName LIKE '%{input}%'";
-                }
-                else
-                {
-                    query = @"
-                    SELECT EventID, EventName, EventDate, Category, Location 
-                    FROM Events";
-                }
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            eventList.Add(new Event
-                            {
-                                EventID = Convert.ToInt32(reader["EventID"]),
-                                EventName = reader["EventName"].ToString(),
-                                EventDate = DateTime.Parse(reader["EventDate"].ToString()),
-                                Category = reader["Category"].ToString(),
-                                Location = reader["Location"].ToString()
-                            });
-                        }
-                    }
-                }
-            }
-            return eventList;
-        }
-
-
-        public static void CreateEvent(string eventName, DateTime eventDate, string category, string location)
-        {
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
-            {
-                conn.Open();
-                string query = @"
-                INSERT INTO Events (EventName, EventDate, Category, Location) 
-                VALUES (@EventName, @EventDate, @Category, @Location);
-                SELECT LAST_INSERT_ID();";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@EventName", eventName);
-                    cmd.Parameters.AddWithValue("@EventDate", eventDate);
-                    cmd.Parameters.AddWithValue("@Category", category);
-                    cmd.Parameters.AddWithValue("@Location", location);
-
-                    int newEventID = Convert.ToInt32(cmd.ExecuteScalar());
-                    Console.WriteLine("New Event created with ID: " + newEventID);
-                }
-            }
-        }
-
-
-        public static ObservableCollection<Bet> GetBetsByEventId(int eventId)
-        {
-            ObservableCollection<Bet> betList = new();
-            betList.Clear();
-
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
-            {
-                conn.Open();
-                string query = @"
-                SELECT BetsID, BetDate, Odds, Amount, BettorsID, Status 
-                FROM Bets WHERE EventID = @EventID";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@EventID", eventId);
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            betList.Add(new Bet
-                            {
-                                BetsID = Convert.ToInt32(reader["BetsID"]),
-                                BetDate = DateTime.Parse(reader["BetDate"].ToString()),
-                                Odds = Convert.ToSingle(reader["Odds"]),
-                                Amount = Convert.ToInt32(reader["Amount"]),
-                                BettorsID = Convert.ToInt32(reader["BettorsID"]),
-                                Status = (bool)reader["Status"]
-                            });
-                        }
-                    }
-                }
-            }
-            return betList;
-        }
-
-
-
-        private bool RegisterUser(string username, string password, string email, int balance)
-        {
-            using (MySqlConnection conn = new MySqlConnection(dbConnectionString))
-            {
-                conn.Open();
-
-                string checkQuery = "SELECT COUNT(1) FROM Bettors WHERE Username = @username OR Email = @Email";
-                using (MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn))
-                {
-                    checkCmd.Parameters.AddWithValue("@username", username.ToLower());
-                    checkCmd.Parameters.AddWithValue("@Email", email.ToLower());
-
-                    int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                    if (exists > 0)
-                    {
-                        MessageBox.Show("Username or email already exists.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return false;
-                    }
-                }
-
-                string insertQuery = @"
-            INSERT INTO Bettors (Username, Balance, Email, Password, JoinDate, IsActive)
-            VALUES (@username, @balance, @Email, @password, @joinDate, @isActive)";
-
-                using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
-                {
-                    cmd.Parameters.AddWithValue("@username", username.ToLower());
-                    cmd.Parameters.AddWithValue("@password", EasyEncryption.SHA.ComputeSHA256Hash(password));
-                    cmd.Parameters.AddWithValue("@Email", email.ToLower());
-                    cmd.Parameters.AddWithValue("@balance", balance);
-                    cmd.Parameters.AddWithValue("@joinDate", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@isActive", true);
-
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Registration successful.", "Auth", MessageBoxButton.OK, MessageBoxImage.Information);
-                        return true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Registration failed. Please try again.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return false;
-                    }
-                }
-            }
-        }
-
-
-
-        public static void DeductBalance(int bettorId, int amount)
-        {
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "UPDATE Bettors SET Balance = Balance - @amount WHERE BettorsID = @bettorId";
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@amount", amount);
-                    cmd.Parameters.AddWithValue("@bettorId", bettorId);
-                    cmd.ExecuteNonQuery();
                 }
             }
         }

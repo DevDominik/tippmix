@@ -27,12 +27,7 @@ namespace Tippmixx
         {
             InitializeComponent();
         }
-
-        public readonly string dbConnectionString = "Server=localhost;Database=tippmix;User ID=root;Password=;";
-       
-
-
-      
+    
         private void lviAction_Selected(object sender, RoutedEventArgs e)
         {
             string username = tbUsername.Text.ToLower();
@@ -42,7 +37,7 @@ namespace Tippmixx
             if (isLogin == true)
             {
 
-                if (AuthenticateUser(username, password))
+                if (DataHandler.Login(username, password))
                 {
                     if (!User.Session.IsActive)
                     {
@@ -64,7 +59,12 @@ namespace Tippmixx
             {
                 if (password == pwrepeat)
                 {
-                    RegisterUser(username, password, email, 10000);
+                    if (!DataHandler.Register(username, password, email, 10000))
+                    {
+                        MessageBox.Show("Username or email already exists.", "Auth", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                    MessageBox.Show("Registration successful.", "Auth", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {

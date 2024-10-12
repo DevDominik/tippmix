@@ -23,9 +23,6 @@ namespace Tippmixx
                 ["Admin"] = new Uri("Pages/Admin.xaml", UriKind.RelativeOrAbsolute),
                 ["MyBets"] = new Uri("Pages/MyBets.xaml", UriKind.RelativeOrAbsolute)
             };
-
-            Role.BuildRoles();
-            User.Session.Permissions = Permission.GetUserPermissions(User.Session.Id);
             tbUsername.Text = User.Session.Username;
             tbBalance.Text = User.Session.Balance.ToString("C");
         }

@@ -28,16 +28,8 @@ namespace Tippmixx
 
         public void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            if (!IsAllowedToLiveUpdate)
-            {
-                return;
-            }
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
             DataHandler.UpdateBettorData(this, name);
-        }
-        public User()
-        {
-            IsAllowedToLiveUpdate = false;
         }
         public User(int id, string username, string password, int balance, string email, DateTime joindate, bool isActive)
         {
@@ -49,7 +41,6 @@ namespace Tippmixx
             this.isActive = isActive;
             this.password = password;
             UpdateAccessStatus();
-            IsAllowedToLiveUpdate = true;
         }
         void UpdateAccessStatus()
         {
@@ -81,18 +72,16 @@ namespace Tippmixx
         {
             return Permissions.Any(x => x.Role.PermissibilityLevel == level && x.IsActive);
         }
-
-        public int Id { get { return id; } set { id = value; OnPropertyChanged(); } }
+        public int Id { get { return id; } }
         public string Username { get { return username; } set { username = value; OnPropertyChanged(); } }
-        public int Balance { get { return balance; } set {  balance = value; OnPropertyChanged(); } }
+        public int Balance { get { return balance; } set { balance = value; OnPropertyChanged(); } }
         public string Email { get { return email; } set { email = value; OnPropertyChanged(); } }
         public string Password { get { return password; } set { password = value; OnPropertyChanged(); } }
         public DateTime JoinDate { get { return joindate; } set { joindate = value; OnPropertyChanged(); } }
         public bool IsActive { get { return isActive; } set { isActive = value; OnPropertyChanged(); UpdateAccessStatus(); } }
-        public bool IsAllowedToLiveUpdate { get; set; }
         public PackIconKind UserStatusAsIcon { get; private set; }
         public PackIconKind AllowAccessAsIcon {  get; private set; }
         public string AllowAccessAsString { get; private set; }
-        public ObservableCollection<Permission> Permissions { get { return IsAllowedToLiveUpdate ? DataHandler.GetUserPermissions(this) : new ObservableCollection<Permission>(); } }
+        public ObservableCollection<Permission> Permissions { get { return DataHandler.GetUserPermissions(this); } }
     }
 }
