@@ -183,10 +183,10 @@ namespace Tippmixx
 
         public static ObservableCollection<Bet> GetUserBets(User user)
         {
+            ObservableCollection<Event> events = RefreshEventList(null);
             ObservableCollection<Bet> bets = new ObservableCollection<Bet>();
             string query = "SELECT Events.EventName, Bets.Amount, Bets.Odds, Bets.BetDate " +
                                   "FROM Bets " +
-                                  "JOIN Events ON Bets.EventID = Events.EventID " +
                                   "WHERE Bets.BettorsID = @BettorsID";
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
@@ -196,7 +196,7 @@ namespace Tippmixx
                     while (reader.Read())
                     {
                         
-                        Event assignedEvent = Event.All.FirstOrDefault(x => x.EventID == Convert.ToInt32(reader["EventID"]));
+                        Event assignedEvent = events.FirstOrDefault(x => x.EventID == Convert.ToInt32(reader["EventID"]));
 
                         if (assignedEvent != null)
                         {
@@ -237,12 +237,24 @@ namespace Tippmixx
                     cmd.Parameters.AddWithValue("@Location", location);
 
                     int newEventID = Convert.ToInt32(cmd.ExecuteScalar());
-                    Console.WriteLine("New Event created with ID: " + newEventID);
                 }
             }
         }
+        public static ObservableCollection<Organization> GetAllOrganizations() 
+        { 
+            ObservableCollection<Organization> organizations = new ObservableCollection<Organization>();
 
-
+            return organizations;
+        }
+        public static Organization GetOrganization(int id) 
+        {
+            return GetAllOrganizations().Where(x => x.OrgID == id).FirstOrDefault();
+        }
+        public static ObservableCollection<Event> GetLinkedEvents(Organization organization) 
+        {
+            ObservableCollection<Event> events = new ObservableCollection<Event>();
+            return events;
+        }
         public static ObservableCollection<Event> RefreshEventList(string input = null)
         {
             ObservableCollection<Event> eventList = new();
@@ -260,7 +272,7 @@ namespace Tippmixx
             }
             else if (input.Any(char.IsLetter))
             {
-                query = $"SELECT EventID, EventName, EventDate, Category, Location FROM Events WHERE EventName LIKE '%{input}%'";
+                query = $"SELECT EventID, EventName, EventDate, Category, Location FROM Events WHERE EventName LIKE '{input}%'";
             }
             else
             {
@@ -268,6 +280,23 @@ namespace Tippmixx
                     SELECT EventID, EventName, EventDate, Category, Location 
                     FROM Events";
             }
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        eventList.Add(new Event(
+                            Convert.ToInt32(reader["EventID"]),
+                            reader["EventName"].ToString(),
+                            DateTime.Parse(reader["EventDate"].ToString()),
+                            reader["Category"].ToString(),
+                            reader["Location"].ToString()
+                        ));
+                    }
+                }
+            }
+            query = "SELECT ";
             using (MySqlCommand cmd = new MySqlCommand(query, connection))
             {
                 using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -392,27 +421,23 @@ namespace Tippmixx
         }
 
 
-        public static void PlaceBet(int bettorId, int eventId, float odds, int amount)
+        public static void PlaceBet(User user, int eventId, float odds, int amount)
         {
-            using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=tippmix;User ID=root;Password=;"))
-            {
-                conn.Open();
-                string query = @"
+            string query = @"
                 INSERT INTO Bets (BetDate, Odds, Amount, BettorsID, EventID, Status) 
                 VALUES (@BetDate, @Odds, @Amount, @BettorsID, @EventID, @Status);";
 
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@BetDate", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@Odds", odds);
-                    cmd.Parameters.AddWithValue("@Amount", amount);
-                    cmd.Parameters.AddWithValue("@BettorsID", bettorId);
-                    cmd.Parameters.AddWithValue("@EventID", eventId);
-                    cmd.Parameters.AddWithValue("@Status", true); // Assuming the status is true when placing a bet
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@BetDate", DateTime.Now);
+                cmd.Parameters.AddWithValue("@Odds", odds);
+                cmd.Parameters.AddWithValue("@Amount", amount);
+                cmd.Parameters.AddWithValue("@BettorsID", user.Id);
+                cmd.Parameters.AddWithValue("@EventID", eventId);
+                cmd.Parameters.AddWithValue("@Status", true); // Assuming the status is true when placing a bet
 
-                    cmd.ExecuteNonQuery(); // Execute the command to insert the bet
-                    Console.WriteLine("Bet placed successfully for EventID: " + eventId);
-                }
+                cmd.ExecuteNonQuery(); // Execute the command to insert the bet
+                Console.WriteLine("Bet placed successfully for EventID: " + eventId);
             }
         }
 
@@ -431,6 +456,79 @@ namespace Tippmixx
             }
         }
 
-       
+        public static string AddKey(Role role) 
+        {
+            string key = Misc.RandomString(20);
+            string query = @"
+                INSERT INTO `rolekey` (KeyID, ForRole, IsActive) 
+                VALUES (@key, @role, @isactive);";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@key", key);
+                cmd.Parameters.AddWithValue("@role", role.PermID);
+                cmd.Parameters.AddWithValue("@isactive", "1");
+                cmd.ExecuteNonQuery();
+            }
+            return key;
+        }
+
+        public static bool DeleteKey(string key) 
+        {
+            string query = "SELECT IsActive FROM `rolekey` WHERE `rolekey`.`KeyID` = @key";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@key", key);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        bool isActive = Convert.ToBoolean(reader["IsActive"].ToString());
+                        if (!isActive) { return false; }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            query = $"UPDATE `rolekey` SET `IsActive` = '0' WHERE `rolekey`.`KeyID` = @key";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@key", key);
+                cmd.ExecuteNonQuery();
+            }
+            return true;
+        }
+        public static bool UseRoleKey(User user, string key)
+        {
+            string query = "SELECT ForRole, IsActive FROM `rolekey` WHERE `rolekey`.`KeyID` = @key";
+            int roleId = 0;
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@key", key);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        bool isActive = Convert.ToBoolean(reader["IsActive"].ToString());
+                        roleId = Convert.ToInt32(reader["ForRole"].ToString());
+                        if (!isActive) { return false; }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            query = $"UPDATE `rolekey` SET `IsActive` = '0' WHERE `rolekey`.`KeyID` = @key";
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@key", key);
+                cmd.ExecuteNonQuery();
+            }
+            user.Permissions.Where(x => x.Role.PermID == roleId).First().IsActive = true;
+            return true;
+        }
     }
 }

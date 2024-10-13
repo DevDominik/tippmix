@@ -8,6 +8,7 @@ namespace Tippmixx
 {
     using System;
     using System.Collections.ObjectModel;
+    using MaterialDesignThemes.Wpf;
     using MySql.Data.MySqlClient;
 
     public class EventManager
@@ -21,7 +22,8 @@ namespace Tippmixx
         DateTime eventDate;
         string category;
         string location;
-        public static ObservableCollection<Event> All = new ObservableCollection<Event>();
+        bool isActive;
+        Organization belongsToOrg;
         public Event(int eventId, string eventName, DateTime eventDate, string category, string location) 
         {
             this.eventId = eventId;
@@ -29,14 +31,21 @@ namespace Tippmixx
             this.eventDate = eventDate;
             this.category = category;
             this.location = location;
-            All.Add(this);
         }
-
+        void UpdateAccessStatus()
+        {
+            AllowBettingAsIcon = !isActive ? PackIconKind.Tick : PackIconKind.Ban;
+            AllowBettingAsString = !isActive ? "Allow" : "Halt";
+        }
         public int EventID { get { return eventId; } }
         public string EventName { get { return eventName; } set { eventName = value; } }
         public DateTime EventDate { get { return eventDate; } set { eventDate = value; } }
         public string Category { get { return category; } set { category = value; } }
         public string Location { get { return location; } set { location = value; } }
+        public bool IsActive { get { return isActive; } set { isActive = value; } }
+        public Organization Organization { get { return belongsToOrg; } set { belongsToOrg = value; } }
+        public PackIconKind AllowBettingAsIcon { get; private set; }
+        public string AllowBettingAsString { get; private set; }
     }
 
     public class Bet

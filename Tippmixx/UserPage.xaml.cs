@@ -11,12 +11,14 @@ namespace Tippmixx
     /// </summary>
     public partial class UserPage : Window
     {
+        public static UserPage Instance { get; private set; }
         public static Dictionary<string, Uri> PageDefinitions;
         static readonly int[] staffLevels = { 4, 5 };
         static readonly int[] orgLevels = { 1, 2, 3 };
         public UserPage()
         {
             InitializeComponent();
+            Instance = this;
             PageDefinitions = new Dictionary<string, Uri>()
             {
                 ["Organizer"] = new Uri("Pages/Organizer.xaml", UriKind.RelativeOrAbsolute),
@@ -25,7 +27,10 @@ namespace Tippmixx
                 ["MyBets"] = new Uri("Pages/MyBets.xaml", UriKind.RelativeOrAbsolute),
                 ["Settings"] = new Uri("Pages/Settings.xaml", UriKind.RelativeOrAbsolute)
             };
-            //spPages.Source = PageDefinitions["Home"];
+            updateRepresentedData();
+        }
+        public void updateRepresentedData() 
+        {
             Permission highestPermission = User.Session.HighestPermission();
             if (highestPermission != null)
             {
@@ -35,9 +40,17 @@ namespace Tippmixx
             {
                 lviAdminPanelBtn.Visibility = Visibility.Collapsed;
             }
-            if (!User.Session.HasPermissibilityLevel(orgLevels)) 
+            else
+            {
+                lviAdminPanelBtn.Visibility = Visibility.Visible;
+            }
+            if (!User.Session.HasPermissibilityLevel(orgLevels))
             {
                 lviOrganize.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                lviOrganize.Visibility = Visibility.Visible;
             }
             tbUsername.Text = User.Session.Username;
             tbBalance.Text = User.Session.Balance.ToString("C");
@@ -88,13 +101,6 @@ namespace Tippmixx
             {
                 entry = this.spPages.RemoveBackEntry();
             }
-        }
-
-        
-        public void UpdateBalance(decimal newBalance)
-        {
-            User.Session.Balance = (int)newBalance; 
-            tbBalance.Text = newBalance.ToString("C"); 
         }
     }
 }

@@ -34,7 +34,6 @@ namespace Tippmixx
 
         void OnPropertyChanged([CallerMemberName] string name = null) 
         {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
             DataHandler.UpdatePermission(this, name);
         }
         int id;

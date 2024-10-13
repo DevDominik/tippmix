@@ -69,6 +69,6 @@
                 </StackPanel>
             </ListViewItem>
         </StackPanel>
-        <Frame Grid.Column="1" x:Name="spPages" NavigationUIVisibility="Hidden" Navigated="spPages_Navigated"></Frame>
+        <Frame Grid.Column="1" x:Name="spPages" NavigationUIVisibility="Hidden" Navigated="spPages_Navigated"/>
     </Grid>
 </Window>

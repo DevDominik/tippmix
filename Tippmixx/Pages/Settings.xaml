@@ -1,12 +1,69 @@
-﻿<Window x:Class="Tippmixx.Pages.Settings"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Tippmixx.Pages"
-        mc:Ignorable="d"
-        Title="Settings" Height="450" Width="800">
+﻿<Page x:Class="Tippmixx.Pages.Settings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tippmixx.Pages"
+      mc:Ignorable="d" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      d:DesignHeight="650" d:DesignWidth="1000"
+      Title="Settings">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{StaticResource title}" Text="Username"/>
+            <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="At"/>
+                <TextBox x:Name="tbUsername" Width="250" PreviewTextInput="tbUsername_PreviewTextInput" Text="Username"/>
+            </StackPanel>
+            <TextBlock Style="{StaticResource title}" Text="Email"/>
+            <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Email"/>
+                <TextBox x:Name="tbEmail" Width="250" Text="Email"/>
+            </StackPanel>
+            <TextBlock Style="{StaticResource title}" Text="Password"/>
+            <StackPanel x:Name="splPassword" Style="{StaticResource stats}" Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Password"/>
+                <PasswordBox x:Name="tbPassword" Width="250" PreviewTextInput="tbPassword_PreviewTextInput" Password=""/>
+            </StackPanel>
+            <StackPanel x:Name="splPasswordVis" Visibility="Collapsed" Style="{StaticResource stats}" Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Password"/>
+                <TextBox x:Name="tbPasswordVis" Width="250" PreviewTextInput="tbPasswordVis_PreviewTextInput" Text=""/>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                <ListViewItem x:Name="lviTogglePasswordVisibility" PreviewMouseDown="lviTogglePasswordVisibility_PreviewMouseDown" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon x:Name="mdpi_PasswordReveal" Kind="Eye"/>
+                        <TextBlock x:Name="tbPasswordReveal" Text="Reveal Password"/>
+                    </StackPanel>
+                </ListViewItem>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                <ListViewItem x:Name="lviUpdateUser" PreviewMouseDown="lviUpdateUser_PreviewMouseDown" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Upload"/>
+                        <TextBlock Text="Update"/>
+                    </StackPanel>
+                </ListViewItem>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <TextBlock Style="{StaticResource title}" Text="Role by Key Assignment"/>
+            <StackPanel Style="{StaticResource stats}" Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Key"/>
+                <TextBox x:Name="tbRoleKey" Text="" Width="300"/>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                <ListViewItem x:Name="lviInputKey" PreviewMouseDown="lviInputKey_PreviewMouseDown" HorizontalContentAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Plus"/>
+                        <TextBlock Text="Accept key"/>
+                    </StackPanel>
+                </ListViewItem>
+            </StackPanel>
+        </StackPanel>
     </Grid>
-</Window>
+</Page>

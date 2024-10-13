@@ -13,21 +13,14 @@ namespace Tippmixx
         private Random _random;
         private int _bettorId;
         private float _generatedOdds;
-        private decimal _balance; 
-        private UserPage _userPage;
 
-        private string connectionString = "Server=localhost;Database=tippmix;User ID=root;Password=;"; 
-
-        public Betting() : this(null) { }
-
-        public Betting(UserPage userPage)
+        public Betting()
         {
             InitializeComponent();
             DataContext = this;
-            _userPage = userPage;
             _random = new Random();
             _bettorId = User.Session.Id;
-            //_balance = GetBettorBalance(_bettorId);
+            _eventsList = DataHandler.RefreshEventList();
             EventComboBox.ItemsSource = _eventsList;
         }
         
@@ -38,19 +31,19 @@ namespace Tippmixx
                 if (_selectedEvent != null)
                 {
                     int amount = int.Parse(AmountTextBox.Text);
-                    if (amount > _balance)
+                    if (amount > User.Session.Balance)
                     {
                         MessageBox.Show("Insufficient balance to place this bet.");
                         return;
                     }
                     //DeductBalance(_bettorId, amount);
-                    _balance -= amount;
-                    _userPage.UpdateBalance(_balance);
-                    //EventManager.PlaceBet(_bettorId, _selectedEvent.EventID, _generatedOdds, amount);
+                    User.Session.Balance -= amount;
+                    DataHandler.PlaceBet(User.Session, _selectedEvent.EventID, _generatedOdds, amount);
                     ConfirmationTextBlock.Text = $"Bet placed successfully for Event: {_selectedEvent.EventName} with odds: {_generatedOdds}. Amount: {amount:C} deducted from your balance.";
                     AmountTextBox.Clear();
                     EventComboBox.SelectedIndex = -1;
                     OddsTextBlock.Text = string.Empty;
+                    UserPage.Instance.updateRepresentedData();
                 }
                 else
                 {

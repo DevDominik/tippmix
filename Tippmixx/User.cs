@@ -13,6 +13,21 @@ using System.Windows;
 
 namespace Tippmixx
 {
+    public class Organization
+    {
+        string displayName;
+        int id;
+        int balance;
+        public Organization(int id, string displayName, int balance)
+        {
+            this.id = id;
+            this.displayName = displayName;
+            this.balance = balance;
+        }
+        public string DisplayName { get { return displayName; } set { displayName = value; } }
+        public int OrgID { get { return id; } }
+        public int Balance { get { return balance; } set { balance = value; } }
+    }
     public class User : INotifyPropertyChanged
     {
         public static User Session { get; set; }
@@ -26,9 +41,8 @@ namespace Tippmixx
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName] string name = null)
+        void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
             DataHandler.UpdateBettorData(this, name);
         }
         public User(int id, string username, string password, int balance, string email, DateTime joindate, bool isActive)
