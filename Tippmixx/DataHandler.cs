@@ -296,23 +296,8 @@ namespace Tippmixx
                     }
                 }
             }
-            query = "SELECT ";
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
-            {
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        eventList.Add(new Event(
-                            Convert.ToInt32(reader["EventID"]),
-                            reader["EventName"].ToString(),
-                            DateTime.Parse(reader["EventDate"].ToString()),
-                            reader["Category"].ToString(),
-                            reader["Location"].ToString()
-                        ));
-                    }
-                }
-            }
+            ObservableCollection<Organization> organizationList = GetAllOrganizations();
+
             return eventList;
         }
 
