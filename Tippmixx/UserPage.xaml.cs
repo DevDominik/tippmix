@@ -12,7 +12,8 @@ namespace Tippmixx
     public partial class UserPage : Window
     {
         public static Dictionary<string, Uri> PageDefinitions;
-
+        static readonly int[] staffLevels = { 4, 5 };
+        static readonly int[] orgLevels = { 1, 2, 3 };
         public UserPage()
         {
             InitializeComponent();
@@ -21,8 +22,23 @@ namespace Tippmixx
                 ["Organizer"] = new Uri("Pages/Organizer.xaml", UriKind.RelativeOrAbsolute),
                 ["Betting"] = new Uri("Pages/Betting.xaml", UriKind.RelativeOrAbsolute),
                 ["Admin"] = new Uri("Pages/Admin.xaml", UriKind.RelativeOrAbsolute),
-                ["MyBets"] = new Uri("Pages/MyBets.xaml", UriKind.RelativeOrAbsolute)
+                ["MyBets"] = new Uri("Pages/MyBets.xaml", UriKind.RelativeOrAbsolute),
+                ["Settings"] = new Uri("Pages/Settings.xaml", UriKind.RelativeOrAbsolute)
             };
+            //spPages.Source = PageDefinitions["Home"];
+            Permission highestPermission = User.Session.HighestPermission();
+            if (highestPermission != null)
+            {
+                mdpi_UserCreds.Kind = highestPermission.Role.RoleIcon;
+            }
+            if (!User.Session.HasPermissibilityLevel(staffLevels))
+            {
+                lviAdminPanelBtn.Visibility = Visibility.Collapsed;
+            }
+            if (!User.Session.HasPermissibilityLevel(orgLevels)) 
+            {
+                lviOrganize.Visibility = Visibility.Collapsed;
+            }
             tbUsername.Text = User.Session.Username;
             tbBalance.Text = User.Session.Balance.ToString("C");
         }
@@ -50,21 +66,16 @@ namespace Tippmixx
 
         private void lviSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            
+            spPages.Source = PageDefinitions["Settings"];
         }
 
         private void lviLogout_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             Auth auth = new Auth();
+            User.Session = null;
             auth.Show();
             this.Close();
         }
-
-        private void lviHome_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-           
-        }
-
         private void spPages_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             if (!spPages.CanGoBack && !spPages.CanGoForward)

@@ -72,6 +72,18 @@ namespace Tippmixx
         {
             return Permissions.Any(x => x.Role.PermissibilityLevel == level && x.IsActive);
         }
+        public bool HasPermissibilityLevel(int[] levels)
+        {
+            ObservableCollection<Permission> toWorkWith = Permissions;
+            foreach (int level in levels)
+            {
+                if (toWorkWith.Any(x => x.Role.PermissibilityLevel == level && x.IsActive))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public int Id { get { return id; } }
         public string Username { get { return username; } set { username = value; OnPropertyChanged(); } }
         public int Balance { get { return balance; } set { balance = value; OnPropertyChanged(); } }
