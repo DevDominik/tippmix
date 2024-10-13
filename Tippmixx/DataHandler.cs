@@ -443,7 +443,7 @@ namespace Tippmixx
 
         public static string AddKey(Role role) 
         {
-            string key = Misc.RandomString(20);
+            string key = Misc.RandomString(12);
             string query = @"
                 INSERT INTO `rolekey` (KeyID, ForRole, IsActive) 
                 VALUES (@key, @role, @isactive);";
